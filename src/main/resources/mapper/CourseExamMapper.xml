@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.CourseExamMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.CourseExam">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="exam_id" jdbcType="INTEGER" property="examId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="duration" jdbcType="INTEGER" property="duration" />
+    <result column="shuffle_questions" jdbcType="BIT" property="shuffleQuestions" />
+    <result column="show_result" jdbcType="BIT" property="showResult" />
+    <result column="limit_ip" jdbcType="BIT" property="limitIp" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, course_id, exam_id, title, description, start_time, end_time, duration, 
+    shuffle_questions, show_result, limit_ip, creator_id, create_time, update_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course_exam
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKeyLong" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course_exam
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByCourseId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course_exam
+    where course_id = #{courseId,jdbcType=BIGINT}
+    order by start_time desc
+  </select>
+  
+  <select id="findByCourseIdAndExamId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course_exam
+    where course_id = #{courseId,jdbcType=BIGINT} and exam_id = #{examId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_course_exam
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByPrimaryKeyLong" parameterType="java.lang.Long">
+    delete from t_course_exam
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteByCourseIdAndExamId">
+    delete from t_course_exam
+    where course_id = #{courseId,jdbcType=BIGINT} and exam_id = #{examId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.mindskip.xzs.domain.CourseExam" useGeneratedKeys="true" keyProperty="id">
+    insert into t_course_exam (course_id, exam_id, title, 
+      description, start_time, end_time, 
+      duration, shuffle_questions, show_result, 
+      limit_ip, creator_id, create_time, update_time)
+    values (#{courseId,jdbcType=BIGINT}, #{examId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{duration,jdbcType=INTEGER}, #{shuffleQuestions,jdbcType=BIT}, #{showResult,jdbcType=BIT}, 
+      #{limitIp,jdbcType=BIT}, #{creatorId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.CourseExam" useGeneratedKeys="true" keyProperty="id">
+    insert into t_course_exam
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="examId != null">
+        exam_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="shuffleQuestions != null">
+        shuffle_questions,
+      </if>
+      <if test="showResult != null">
+        show_result,
+      </if>
+      <if test="limitIp != null">
+        limit_ip,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="examId != null">
+        #{examId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="shuffleQuestions != null">
+        #{shuffleQuestions,jdbcType=BIT},
+      </if>
+      <if test="showResult != null">
+        #{showResult,jdbcType=BIT},
+      </if>
+      <if test="limitIp != null">
+        #{limitIp,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.CourseExam">
+    update t_course_exam
+    <set>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="examId != null">
+        exam_id = #{examId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="shuffleQuestions != null">
+        shuffle_questions = #{shuffleQuestions,jdbcType=BIT},
+      </if>
+      <if test="showResult != null">
+        show_result = #{showResult,jdbcType=BIT},
+      </if>
+      <if test="limitIp != null">
+        limit_ip = #{limitIp,jdbcType=BIT},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.CourseExam">
+    update t_course_exam
+    set course_id = #{courseId,jdbcType=BIGINT},
+      exam_id = #{examId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      duration = #{duration,jdbcType=INTEGER},
+      shuffle_questions = #{shuffleQuestions,jdbcType=BIT},
+      show_result = #{showResult,jdbcType=BIT},
+      limit_ip = #{limitIp,jdbcType=BIT},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper> 

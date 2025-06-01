@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.ResourceMapper">
+    <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.Resource">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="file_size" jdbcType="BIGINT" property="fileSize" />
+        <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+        <result column="course_id" jdbcType="BIGINT" property="courseId" />
+        <result column="uploader_id" jdbcType="INTEGER" property="uploaderId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <!-- Assuming BaseMapper might not have insertSelective or you want to customize it -->
+    <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.Resource" useGeneratedKeys="true" keyProperty="id">
+        insert into t_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="description != null">description,</if>
+            <if test="type != null">type,</if>
+            <if test="url != null">url,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="uploaderId != null">uploader_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title,jdbcType=VARCHAR},</if>
+            <if test="description != null">#{description,jdbcType=VARCHAR},</if>
+            <if test="type != null">#{type,jdbcType=INTEGER},</if>
+            <if test="url != null">#{url,jdbcType=VARCHAR},</if>
+            <if test="fileSize != null">#{fileSize,jdbcType=BIGINT},</if>
+            <if test="fileType != null">#{fileType,jdbcType=VARCHAR},</if>
+            <if test="courseId != null">#{courseId,jdbcType=BIGINT},</if>
+            <if test="uploaderId != null">#{uploaderId,jdbcType=INTEGER},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <select id="selectByCourseId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, title, description, type, url, file_size, file_type, course_id, uploader_id, create_time, update_time
+        from t_resource
+        where course_id = #{courseId,jdbcType=BIGINT}
+        order by create_time desc
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, title, description, type, url, file_size, file_type, course_id, uploader_id, create_time, update_time
+        from t_resource
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.Resource">
+        update t_resource
+        <set>
+            <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>
+            <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
+            <if test="type != null">type = #{type,jdbcType=INTEGER},</if>
+            <if test="url != null">url = #{url,jdbcType=VARCHAR},</if>
+            <if test="fileSize != null">file_size = #{fileSize,jdbcType=BIGINT},</if>
+            <if test="fileType != null">file_type = #{fileType,jdbcType=VARCHAR},</if>
+            <if test="courseId != null">course_id = #{courseId,jdbcType=BIGINT},</if>
+            <if test="uploaderId != null">uploader_id = #{uploaderId,jdbcType=INTEGER},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_resource where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- You may want to add other standard CRUD operations if not covered by a BaseMapper -->
+    <!--
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, title, description, type, url, file_size, file_type, course_id, uploader_id, create_time, update_time
+        from t_resource
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateSelective" parameterType="com.mindskip.xzs.domain.Resource">
+        update t_resource
+        <set>
+            <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>
+            <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
+            <if test="type != null">type = #{type,jdbcType=INTEGER},</if>
+            <if test="url != null">url = #{url,jdbcType=VARCHAR},</if>
+            <if test="fileSize != null">file_size = #{fileSize,jdbcType=BIGINT},</if>
+            <if test="fileType != null">file_type = #{fileType,jdbcType=VARCHAR},</if>
+            <if test="courseId != null">course_id = #{courseId,jdbcType=BIGINT},</if>
+            <if test="uploaderId != null">uploader_id = #{uploaderId,jdbcType=INTEGER},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from t_resource where id = #{id,jdbcType=BIGINT}
+    </delete>
+    -->
+</mapper> 

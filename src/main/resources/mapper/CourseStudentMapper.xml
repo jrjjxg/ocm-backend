@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.CourseStudentMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.CourseStudent">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="student_id" jdbcType="INTEGER" property="studentId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="final_score" jdbcType="REAL" property="finalScore" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <resultMap id="CourseStudentDTOMap" type="com.mindskip.xzs.domain.dto.CourseStudentDTO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="final_score" jdbcType="REAL" property="finalScore" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, course_id, student_id, status, final_score, creator_id, create_time, update_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course_student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKeyLong" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course_student
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByCourseIdAndStudentId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_course_student
+    where course_id = #{courseId,jdbcType=BIGINT} and student_id = #{studentId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getCourseStudents" resultMap="CourseStudentDTOMap">
+    SELECT 
+      u.id, u.user_name, u.real_name, cs.status, cs.final_score, cs.create_time
+    FROM 
+      t_course_student cs
+    JOIN 
+      t_user u ON cs.student_id = u.id
+    WHERE 
+      cs.course_id = #{courseId,jdbcType=BIGINT}
+    ORDER BY 
+      cs.create_time DESC
+  </select>
+  
+  <select id="getCourseStudentsWithPage" resultMap="CourseStudentDTOMap">
+    SELECT 
+      u.id, u.user_name, u.real_name, cs.status, cs.final_score, cs.create_time
+    FROM 
+      t_course_student cs
+    JOIN 
+      t_user u ON cs.student_id = u.id
+    WHERE 
+      cs.course_id = #{courseId,jdbcType=BIGINT}
+      <if test="keyword != null and keyword != ''">
+        AND (u.user_name LIKE CONCAT('%', #{keyword}, '%') 
+          OR u.real_name LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+    ORDER BY 
+      cs.create_time DESC
+  </select>
+  
+  <select id="selectByCourseId" resultMap="CourseStudentDTOMap">
+    SELECT 
+      cs.id, u.id as user_id, u.user_name, u.real_name, u.user_uuid as student_id, cs.status, cs.final_score, cs.create_time
+    FROM 
+      t_course_student cs
+    JOIN 
+      t_user u ON cs.student_id = u.id
+    WHERE 
+      cs.course_id = #{courseId,jdbcType=BIGINT}
+      AND cs.status = 1
+    ORDER BY 
+      cs.create_time DESC
+  </select>
+  
+  <select id="countByCourseId" resultType="java.lang.Integer">
+    SELECT 
+      COUNT(*)
+    FROM 
+      t_course_student
+    WHERE 
+      course_id = #{courseId,jdbcType=BIGINT}
+      AND status = 1
+  </select>
+  
+  <select id="findCourseIdsByStudentId" resultType="java.lang.Long">
+    select 
+      course_id
+    from 
+      t_course_student
+    where 
+      student_id = #{studentId,jdbcType=INTEGER}
+      and status = 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_course_student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByPrimaryKeyLong" parameterType="java.lang.Long">
+    delete from t_course_student
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <update id="updateStatus">
+    update t_course_student
+    set status = #{status,jdbcType=INTEGER},
+      update_time = now()
+    where course_id = #{courseId,jdbcType=BIGINT} and student_id = #{studentId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateFinalScore">
+    update t_course_student
+    set final_score = #{finalScore,jdbcType=REAL},
+      update_time = now()
+    where course_id = #{courseId,jdbcType=BIGINT} and student_id = #{studentId,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="insert" parameterType="com.mindskip.xzs.domain.CourseStudent" useGeneratedKeys="true" keyProperty="id">
+    insert into t_course_student (course_id, student_id, status, 
+      final_score, creator_id, create_time, 
+      update_time)
+    values (#{courseId,jdbcType=BIGINT}, #{studentId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{finalScore,jdbcType=REAL}, #{creatorId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.CourseStudent" useGeneratedKeys="true" keyProperty="id">
+    insert into t_course_student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="finalScore != null">
+        final_score,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="finalScore != null">
+        #{finalScore,jdbcType=REAL},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.CourseStudent">
+    update t_course_student
+    <set>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="finalScore != null">
+        final_score = #{finalScore,jdbcType=REAL},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.CourseStudent">
+    update t_course_student
+    set course_id = #{courseId,jdbcType=BIGINT},
+      student_id = #{studentId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      final_score = #{finalScore,jdbcType=REAL},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

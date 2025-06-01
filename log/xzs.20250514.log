@@ -1,0 +1,219 @@
+2025-05-14 13:14:19.628  INFO 25696 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Starting XzsApplication on LAPTOP-6BBC8HKD with PID 25696 (E:\ocm\onlineexam\target\classes started by now，say my name in E:\ocm\onlineexam)
+2025-05-14 13:14:19.632  INFO 25696 --- [restartedMain] com.mindskip.xzs.XzsApplication          : The following profiles are active: dev
+2025-05-14 13:14:19.687  INFO 25696 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-14 13:14:19.688  INFO 25696 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-14 13:14:21.217  WARN 25696 --- [restartedMain] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2025-05-14 13:14:21.246  INFO 25696 --- [restartedMain] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2025-05-14 13:14:21.246  INFO 25696 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1557 ms
+2025-05-14 13:14:22.678  INFO 25696 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@45497d27, org.springframework.security.web.context.SecurityContextPersistenceFilter@2054d400, org.springframework.security.web.header.HeaderWriterFilter@72e4029a, org.springframework.web.filter.CorsFilter@32a99b3f, org.springframework.security.web.authentication.logout.LogoutFilter@67419209, com.mindskip.xzs.configuration.spring.security.RestLoginAuthenticationFilter@612d374, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1fa4fb2e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3711ed68, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5a6cd814, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@14e533f7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@259249ce, org.springframework.security.web.session.SessionManagementFilter@496e7237, org.springframework.security.web.access.ExceptionTranslationFilter@6e0ce4c3, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@309872b3]
+2025-05-14 13:14:23.557  INFO 25696 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-14 13:14:23.634  INFO 25696 --- [restartedMain] org.xnio                                 : XNIO version 3.3.8.Final
+2025-05-14 13:14:23.647  INFO 25696 --- [restartedMain] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2025-05-14 13:14:23.843  INFO 25696 --- [restartedMain] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 8000 (http) with context path ''
+2025-05-14 13:14:23.847  INFO 25696 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Started XzsApplication in 5.058 seconds (JVM running for 6.555)
+2025-05-14 13:14:34.839  INFO 25696 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Starting XzsApplication on LAPTOP-6BBC8HKD with PID 25696 (E:\ocm\onlineexam\target\classes started by now，say my name in E:\ocm\onlineexam)
+2025-05-14 13:14:34.839  INFO 25696 --- [restartedMain] com.mindskip.xzs.XzsApplication          : The following profiles are active: dev
+2025-05-14 13:14:34.841  INFO 25696 --- [restartedMain] o.s.core.annotation.AnnotationUtils      : Failed to introspect annotations on class com.mindskip.xzs.XzsApplication: java.lang.IllegalStateException: Could not obtain annotation attribute value for public abstract java.lang.Class[] org.springframework.boot.context.properties.EnableConfigurationProperties.value()
+2025-05-14 13:14:34.844  WARN 25696 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.mindskip.xzs.XzsApplication]; nested exception is java.io.FileNotFoundException: class path resource [com/mindskip/xzs/XzsApplication.class] cannot be opened because it does not exist
+2025-05-14 13:14:34.845 ERROR 25696 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.mindskip.xzs.XzsApplication]; nested exception is java.io.FileNotFoundException: class path resource [com/mindskip/xzs/XzsApplication.class] cannot be opened because it does not exist
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:181)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:315)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:232)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:275)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:95)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:705)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:531)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:140)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:742)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:389)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1213)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1202)
+	at com.mindskip.xzs.XzsApplication.main(XzsApplication.java:26)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.io.FileNotFoundException: class path resource [com/mindskip/xzs/XzsApplication.class] cannot be opened because it does not exist
+	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:180)
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:51)
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103)
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.createMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:86)
+	at org.springframework.boot.type.classreading.ConcurrentReferenceCachingMetadataReaderFactory.getMetadataReader(ConcurrentReferenceCachingMetadataReaderFactory.java:73)
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81)
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:682)
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:651)
+	at org.springframework.context.annotation.ConfigurationClassParser.asSourceClass(ConfigurationClassParser.java:629)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:240)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:199)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:167)
+	... 18 common frames omitted
+
+2025-05-14 13:14:41.494  INFO 25696 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Starting XzsApplication on LAPTOP-6BBC8HKD with PID 25696 (E:\ocm\onlineexam\target\classes started by now，say my name in E:\ocm\onlineexam)
+2025-05-14 13:14:41.494  INFO 25696 --- [restartedMain] com.mindskip.xzs.XzsApplication          : The following profiles are active: dev
+2025-05-14 13:14:42.183  WARN 25696 --- [restartedMain] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2025-05-14 13:14:42.184  INFO 25696 --- [restartedMain] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2025-05-14 13:14:42.185  INFO 25696 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 688 ms
+2025-05-14 13:14:42.519  WARN 25696 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is java.lang.RuntimeException: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfigurer.FormLoginWebSecurityConfigurerAdapter': Unsatisfied dependency expressed through method 'setContentNegotationStrategy' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcContentNegotiationManager' defined in class path resource [com/mindskip/xzs/configuration/spring/mvc/WebMvcConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.web.accept.ContentNegotiationManager]: Factory method 'mvcContentNegotiationManager' threw exception; nested exception is org.springframework.cglib.core.CodeGenerationException: java.lang.LinkageError-->loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+2025-05-14 13:14:42.525  INFO 25696 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2025-05-14 13:14:42.526 ERROR 25696 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is java.lang.RuntimeException: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfigurer.FormLoginWebSecurityConfigurerAdapter': Unsatisfied dependency expressed through method 'setContentNegotationStrategy' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcContentNegotiationManager' defined in class path resource [com/mindskip/xzs/configuration/spring/mvc/WebMvcConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.web.accept.ContentNegotiationManager]: Factory method 'mvcContentNegotiationManager' threw exception; nested exception is org.springframework.cglib.core.CodeGenerationException: java.lang.LinkageError-->loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:155)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:140)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:742)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:389)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1213)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1202)
+	at com.mindskip.xzs.XzsApplication.main(XzsApplication.java:26)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.RuntimeException: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfigurer.FormLoginWebSecurityConfigurerAdapter': Unsatisfied dependency expressed through method 'setContentNegotationStrategy' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcContentNegotiationManager' defined in class path resource [com/mindskip/xzs/configuration/spring/mvc/WebMvcConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.web.accept.ContentNegotiationManager]: Factory method 'mvcContentNegotiationManager' threw exception; nested exception is org.springframework.cglib.core.CodeGenerationException: java.lang.LinkageError-->loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+	at io.undertow.servlet.core.DeploymentManagerImpl.deploy(DeploymentManagerImpl.java:252)
+	at org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory.createDeploymentManager(UndertowServletWebServerFactory.java:279)
+	at org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory.getWebServer(UndertowServletWebServerFactory.java:206)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:179)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:152)
+	... 13 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfigurer.FormLoginWebSecurityConfigurerAdapter': Unsatisfied dependency expressed through method 'setContentNegotationStrategy' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcContentNegotiationManager' defined in class path resource [com/mindskip/xzs/configuration/spring/mvc/WebMvcConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.web.accept.ContentNegotiationManager]: Factory method 'mvcContentNegotiationManager' threw exception; nested exception is org.springframework.cglib.core.CodeGenerationException: java.lang.LinkageError-->loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:676)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:90)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:374)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1411)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:592)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:392)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1321)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1160)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154)
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:86)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:252)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:226)
+	at org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory$Initializer.onStartup(UndertowServletWebServerFactory.java:592)
+	at io.undertow.servlet.core.DeploymentManagerImpl$1.call(DeploymentManagerImpl.java:203)
+	at io.undertow.servlet.core.DeploymentManagerImpl$1.call(DeploymentManagerImpl.java:185)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:42)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.core.DeploymentManagerImpl.deploy(DeploymentManagerImpl.java:250)
+	... 17 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcContentNegotiationManager' defined in class path resource [com/mindskip/xzs/configuration/spring/mvc/WebMvcConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.web.accept.ContentNegotiationManager]: Factory method 'mvcContentNegotiationManager' threw exception; nested exception is org.springframework.cglib.core.CodeGenerationException: java.lang.LinkageError-->loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:627)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:456)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1321)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1160)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1251)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1171)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:668)
+	... 48 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.web.accept.ContentNegotiationManager]: Factory method 'mvcContentNegotiationManager' threw exception; nested exception is org.springframework.cglib.core.CodeGenerationException: java.lang.LinkageError-->loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:622)
+	... 61 common frames omitted
+Caused by: org.springframework.cglib.core.CodeGenerationException: java.lang.LinkageError-->loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+	at org.springframework.cglib.core.ReflectUtils.defineClass(ReflectUtils.java:550)
+	at org.springframework.cglib.core.AbstractClassGenerator.generate(AbstractClassGenerator.java:363)
+	at org.springframework.cglib.core.AbstractClassGenerator$ClassLoaderData$3.apply(AbstractClassGenerator.java:110)
+	at org.springframework.cglib.core.AbstractClassGenerator$ClassLoaderData$3.apply(AbstractClassGenerator.java:108)
+	at org.springframework.cglib.core.internal.LoadingCache$2.call(LoadingCache.java:54)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.springframework.cglib.core.internal.LoadingCache.createEntry(LoadingCache.java:61)
+	at org.springframework.cglib.core.internal.LoadingCache.get(LoadingCache.java:34)
+	at org.springframework.cglib.core.AbstractClassGenerator$ClassLoaderData.get(AbstractClassGenerator.java:134)
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:319)
+	at org.springframework.cglib.reflect.FastClass$Generator.create(FastClass.java:65)
+	at org.springframework.cglib.proxy.MethodProxy.helper(MethodProxy.java:135)
+	at org.springframework.cglib.proxy.MethodProxy.init(MethodProxy.java:76)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:242)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:363)
+	at com.mindskip.xzs.configuration.spring.mvc.WebMvcConfiguration$$EnhancerBySpringCGLIB$$225aa40d.mvcContentNegotiationManager(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	... 62 common frames omitted
+Caused by: java.lang.LinkageError: loader 'app' attempted duplicate class definition for org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c. (org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport$$FastClassBySpringCGLIB$$69f69f7c is in unnamed module of loader 'app')
+	at java.base/java.lang.ClassLoader.defineClass0(Native Method)
+	at java.base/java.lang.System$2.defineClass(System.java:2324)
+	at java.base/java.lang.invoke.MethodHandles$Lookup$ClassDefiner.defineClass(MethodHandles.java:2439)
+	at java.base/java.lang.invoke.MethodHandles$Lookup$ClassDefiner.defineClass(MethodHandles.java:2416)
+	at java.base/java.lang.invoke.MethodHandles$Lookup.defineClass(MethodHandles.java:1843)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.cglib.core.ReflectUtils.defineClass(ReflectUtils.java:547)
+	... 82 common frames omitted
+
+2025-05-14 13:16:41.709  INFO 24896 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Starting XzsApplication on LAPTOP-6BBC8HKD with PID 24896 (E:\ocm\onlineexam\target\classes started by now，say my name in E:\ocm\onlineexam)
+2025-05-14 13:16:41.712  INFO 24896 --- [restartedMain] com.mindskip.xzs.XzsApplication          : The following profiles are active: dev
+2025-05-14 13:16:41.783  INFO 24896 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-14 13:16:41.784  INFO 24896 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-14 13:16:44.606  WARN 24896 --- [restartedMain] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2025-05-14 13:16:44.634  INFO 24896 --- [restartedMain] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2025-05-14 13:16:44.635  INFO 24896 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2851 ms
+2025-05-14 13:16:45.811  INFO 24896 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5d363ca6, org.springframework.security.web.context.SecurityContextPersistenceFilter@31db32a1, org.springframework.security.web.header.HeaderWriterFilter@23043c3c, org.springframework.web.filter.CorsFilter@70b32cab, org.springframework.security.web.authentication.logout.LogoutFilter@514c3289, com.mindskip.xzs.configuration.spring.security.RestLoginAuthenticationFilter@1a344345, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@63bc04a0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4327404f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@21f71e0a, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@5cb17ef8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3176a1ba, org.springframework.security.web.session.SessionManagementFilter@614e3098, org.springframework.security.web.access.ExceptionTranslationFilter@22562923, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@62bfca05]
+2025-05-14 13:16:46.239  INFO 24896 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-14 13:16:46.296  INFO 24896 --- [restartedMain] org.xnio                                 : XNIO version 3.3.8.Final
+2025-05-14 13:16:46.304  INFO 24896 --- [restartedMain] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2025-05-14 13:16:46.433  INFO 24896 --- [restartedMain] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 8000 (http) with context path ''
+2025-05-14 13:16:46.437  INFO 24896 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Started XzsApplication in 5.357 seconds (JVM running for 6.586)
+2025-05-14 13:17:40.483  INFO 3340 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Starting XzsApplication on LAPTOP-6BBC8HKD with PID 3340 (E:\ocm\onlineexam\target\classes started by now，say my name in E:\ocm\onlineexam)
+2025-05-14 13:17:40.488  INFO 3340 --- [restartedMain] com.mindskip.xzs.XzsApplication          : The following profiles are active: dev
+2025-05-14 13:17:40.574  INFO 3340 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-14 13:17:40.574  INFO 3340 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-14 13:17:43.157  WARN 3340 --- [restartedMain] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2025-05-14 13:17:43.192  INFO 3340 --- [restartedMain] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2025-05-14 13:17:43.192  INFO 3340 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2618 ms
+2025-05-14 13:17:45.081  INFO 3340 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@101f109, org.springframework.security.web.context.SecurityContextPersistenceFilter@6c20e6, org.springframework.security.web.header.HeaderWriterFilter@1edac0d6, org.springframework.web.filter.CorsFilter@61b6c574, org.springframework.security.web.authentication.logout.LogoutFilter@abe47af, com.mindskip.xzs.configuration.spring.security.RestLoginAuthenticationFilter@1c7ed6a8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2764c943, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@721326d2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@461ecf48, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@3cc11daf, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7606a1e6, org.springframework.security.web.session.SessionManagementFilter@2755d653, org.springframework.security.web.access.ExceptionTranslationFilter@18e64cf9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@68da5e19]
+2025-05-14 13:17:45.802  INFO 3340 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-14 13:17:45.896  INFO 3340 --- [restartedMain] org.xnio                                 : XNIO version 3.3.8.Final
+2025-05-14 13:17:45.910  INFO 3340 --- [restartedMain] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2025-05-14 13:17:46.109  INFO 3340 --- [restartedMain] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 8000 (http) with context path ''
+2025-05-14 13:17:46.117  INFO 3340 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Started XzsApplication in 6.328 seconds (JVM running for 7.746)
+2025-05-14 13:59:37.309  INFO 10960 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Starting XzsApplication on LAPTOP-6BBC8HKD with PID 10960 (E:\ocm\onlineexam\target\classes started by now，say my name in E:\ocm\onlineexam)
+2025-05-14 13:59:37.312  INFO 10960 --- [restartedMain] com.mindskip.xzs.XzsApplication          : The following profiles are active: dev
+2025-05-14 13:59:37.383  INFO 10960 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-14 13:59:37.383  INFO 10960 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-14 13:59:39.049  WARN 10960 --- [restartedMain] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2025-05-14 13:59:39.082  INFO 10960 --- [restartedMain] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2025-05-14 13:59:39.082  INFO 10960 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1698 ms
+2025-05-14 13:59:40.196  INFO 10960 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7468f2fb, org.springframework.security.web.context.SecurityContextPersistenceFilter@259249ce, org.springframework.security.web.header.HeaderWriterFilter@47ea08cc, org.springframework.web.filter.CorsFilter@5ffa6d56, org.springframework.security.web.authentication.logout.LogoutFilter@28e1765e, com.mindskip.xzs.configuration.spring.security.RestLoginAuthenticationFilter@f0ff992, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4e6f6a28, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3b2ba582, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@32c02de4, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@2dd616af, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@26a65812, org.springframework.security.web.session.SessionManagementFilter@45497d27, org.springframework.security.web.access.ExceptionTranslationFilter@5092bf94, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3c38edaa]
+2025-05-14 13:59:40.743  INFO 10960 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-14 13:59:40.794  INFO 10960 --- [restartedMain] org.xnio                                 : XNIO version 3.3.8.Final
+2025-05-14 13:59:40.803  INFO 10960 --- [restartedMain] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2025-05-14 13:59:40.904  INFO 10960 --- [restartedMain] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 8000 (http) with context path ''
+2025-05-14 13:59:40.910  INFO 10960 --- [restartedMain] com.mindskip.xzs.XzsApplication          : Started XzsApplication in 4.265 seconds (JVM running for 5.677)
+2025-05-14 14:00:22.720  INFO 10960 --- [XNIO-1 task-3] io.undertow.servlet                      : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-14 14:00:22.720  INFO 10960 --- [XNIO-1 task-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-14 14:00:22.728  INFO 10960 --- [XNIO-1 task-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2025-05-14 14:00:41.803  INFO 10960 --- [Thread-7] io.undertow.servlet                      : Destroying Spring FrameworkServlet 'dispatcherServlet'
