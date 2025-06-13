@@ -30,7 +30,7 @@ public interface ExamPaperService extends BaseService<ExamPaper> {
     Integer selectAllCount();
 
     List<Integer> selectMothCount();
-    
+
     /**
      * 获取课程的所有测验
      *
@@ -38,43 +38,43 @@ public interface ExamPaperService extends BaseService<ExamPaper> {
      * @return 测验列表
      */
     List<CourseExamResponseVM> getCourseExams(Long courseId);
-    
+
     /**
      * 获取测验详情
      *
      * @param courseId 课程ID
-     * @param examId 测验ID
+     * @param examId   测验ID
      * @return 测验详情
      */
     CourseExamResponseVM getCourseExam(Long courseId, Integer examId);
-    
+
     /**
      * 保存课程测验
      *
      * @param model 测验信息
-     * @param user 创建者
+     * @param user  创建者
      * @return 创建的测验
      */
     ExamPaper saveCourseExam(CourseExamRequestVM model, User user);
-    
+
     /**
      * 更新课程测验
      *
      * @param model 测验信息
-     * @param user 更新者
+     * @param user  更新者
      * @return 更新后的测验
      */
     ExamPaper updateCourseExam(CourseExamRequestVM model, User user);
-    
+
     /**
      * 删除课程测验
      *
      * @param courseId 课程ID
-     * @param examId 测验ID
+     * @param examId   测验ID
      * @return 删除结果
      */
     void deleteCourseExam(Long courseId, Integer examId);
-    
+
     /**
      * 获取教师可用的试卷列表
      *
@@ -82,4 +82,12 @@ public interface ExamPaperService extends BaseService<ExamPaper> {
      * @return 试卷列表
      */
     List<ExamPaper> getAvailablePapers(Integer teacherId);
+
+    /**
+     * 教师端试卷分页查询
+     *
+     * @param requestVM 查询条件
+     * @return 分页结果
+     */
+    PageInfo<ExamPaper> teacherPage(ExamPaperPageRequestVM requestVM);
 }

@@ -76,6 +76,28 @@
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from t_resource where id = #{id,jdbcType=BIGINT}
     </delete>
+    
+    <insert id="insert" parameterType="com.mindskip.xzs.domain.Resource" useGeneratedKeys="true" keyProperty="id">
+        insert into t_resource (title, description, type, url, file_size, file_type, course_id, uploader_id, create_time, update_time)
+        values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+                #{url,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, #{fileType,jdbcType=VARCHAR}, 
+                #{courseId,jdbcType=BIGINT}, #{uploaderId,jdbcType=INTEGER}, 
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.Resource">
+        update t_resource
+        set title = #{title,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR},
+            type = #{type,jdbcType=INTEGER},
+            url = #{url,jdbcType=VARCHAR},
+            file_size = #{fileSize,jdbcType=BIGINT},
+            file_type = #{fileType,jdbcType=VARCHAR},
+            course_id = #{courseId,jdbcType=BIGINT},
+            uploader_id = #{uploaderId,jdbcType=INTEGER},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 
     <!-- You may want to add other standard CRUD operations if not covered by a BaseMapper -->
     <!--

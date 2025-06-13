@@ -14,14 +14,9 @@ public class Question implements Serializable {
     private Integer id;
 
     /**
-     * 	1.单选题 2.多选题 3.判断题 4.填空题 5.简答题
+     * 1.单选题 2.多选题 3.判断题 4.填空题 5.简答题
      */
     private Integer questionType;
-
-    /**
-     * 学科
-     */
-    private Integer subjectId;
 
     /**
      * 课程
@@ -84,14 +79,6 @@ public class Question implements Serializable {
 
     public void setQuestionType(Integer questionType) {
         this.questionType = questionType;
-    }
-
-    public Integer getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Integer subjectId) {
-        this.subjectId = subjectId;
     }
 
     public Integer getCourseId() {
@@ -173,7 +160,6 @@ public class Question implements Serializable {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
 
     public void setCorrectFromVM(String correct, List<String> correctArray) {
         int qType = this.getQuestionType();

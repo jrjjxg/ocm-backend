@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.DiscussionMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.Discussion">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="creator_type" jdbcType="INTEGER" property="creatorType" />
+    <result column="view_count" jdbcType="INTEGER" property="viewCount" />
+    <result column="reply_count" jdbcType="INTEGER" property="replyCount" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="is_essence" jdbcType="BIT" property="isEssence" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mindskip.xzs.domain.Discussion">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, title, course_id, creator_id, creator_type, view_count, reply_count, is_top, is_essence, 
+    create_time, update_time
+  </sql>
+  
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_discussion
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_discussion
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.mindskip.xzs.domain.Discussion" useGeneratedKeys="true" keyProperty="id">
+    insert into t_discussion (id, title, content, 
+      course_id, creator_id, creator_type, 
+      view_count, reply_count, is_top, 
+      is_essence, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
+      #{courseId,jdbcType=BIGINT}, #{creatorId,jdbcType=INTEGER}, #{creatorType,jdbcType=INTEGER}, 
+      #{viewCount,jdbcType=INTEGER}, #{replyCount,jdbcType=INTEGER}, #{isTop,jdbcType=BIT}, 
+      #{isEssence,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.Discussion" useGeneratedKeys="true" keyProperty="id">
+    insert into t_discussion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="creatorType != null">
+        creator_type,
+      </if>
+      <if test="viewCount != null">
+        view_count,
+      </if>
+      <if test="replyCount != null">
+        reply_count,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="isEssence != null">
+        is_essence,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorType != null">
+        #{creatorType,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="replyCount != null">
+        #{replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="isEssence != null">
+        #{isEssence,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.Discussion">
+    update t_discussion
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorType != null">
+        creator_type = #{creatorType,jdbcType=INTEGER},
+      </if>
+      <if test="viewCount != null">
+        view_count = #{viewCount,jdbcType=INTEGER},
+      </if>
+      <if test="replyCount != null">
+        reply_count = #{replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="isEssence != null">
+        is_essence = #{isEssence,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.Discussion">
+    update t_discussion
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      course_id = #{courseId,jdbcType=BIGINT},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      creator_type = #{creatorType,jdbcType=INTEGER},
+      view_count = #{viewCount,jdbcType=INTEGER},
+      reply_count = #{replyCount,jdbcType=INTEGER},
+      is_top = #{isTop,jdbcType=BIT},
+      is_essence = #{isEssence,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 根据课程ID分页查询讨论列表 -->
+  <select id="selectByCourseId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion
+    where course_id = #{courseId,jdbcType=BIGINT}
+    order by is_top desc, create_time desc
+    limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
+  </select>
+
+  <!-- 根据课程ID统计讨论总数 -->
+  <select id="countByCourseId" resultType="java.lang.Integer">
+    select count(*)
+    from t_discussion
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </select>
+
+  <!-- 增加浏览数 -->
+  <update id="increaseViewCount">
+    update t_discussion
+    set view_count = view_count + 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 增加回复数 -->
+  <update id="increaseReplyCount">
+    update t_discussion
+    set reply_count = reply_count + 1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 减少回复数 -->
+  <update id="decreaseReplyCount">
+    update t_discussion
+    set reply_count = reply_count - 1
+    where id = #{id,jdbcType=BIGINT} and reply_count > 0
+  </update>
+
+  <!-- 查询课程置顶讨论 -->
+  <select id="selectTopDiscussions" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion
+    where course_id = #{courseId,jdbcType=BIGINT} and is_top = 1
+    order by create_time desc
+  </select>
+
+  <!-- 查询课程精华讨论 -->
+  <select id="selectEssenceDiscussions" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion
+    where course_id = #{courseId,jdbcType=BIGINT} and is_essence = 1
+    order by create_time desc
+  </select>
+
+  <!-- 根据创建者ID查询讨论 -->
+  <select id="selectByCreatorId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion
+    where creator_id = #{creatorId,jdbcType=INTEGER}
+    order by create_time desc
+    limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
+  </select>
+
+  <!-- 验证用户是否有权限操作该讨论 -->
+  <select id="validateDiscussionOwner" resultType="java.lang.Integer">
+    select count(*)
+    from t_discussion
+    where id = #{id,jdbcType=BIGINT} and creator_id = #{creatorId,jdbcType=INTEGER}
+  </select>
+</mapper> 

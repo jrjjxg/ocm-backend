@@ -1,13 +1,12 @@
 package com.mindskip.xzs.viewmodel.admin.question;
 
-
 import javax.validation.constraints.NotBlank;
-
+import javax.validation.groups.Default;
 
 public class QuestionEditItemVM {
     @NotBlank
     private String prefix;
-    @NotBlank
+    @NotBlank(groups = { ChoiceQuestion.class })
     private String content;
 
     private String score;

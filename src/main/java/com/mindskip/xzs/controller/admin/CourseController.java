@@ -27,21 +27,21 @@ public class CourseController extends BaseApiController {
         this.courseService = courseService;
     }
 
-    @RequestMapping(value = "/page/list", method = RequestMethod.POST)
+    @PostMapping("/page/list")
     public RestResponse<PageInfo<CourseResponseVM>> pageList(@RequestBody CoursePageRequestVM model) {
         PageInfo<Course> pageInfo = courseService.page(model);
         PageInfo<CourseResponseVM> page = PageInfoHelper.copyMap(pageInfo, CourseResponseVM::from);
         return RestResponse.ok(page);
     }
 
-    @RequestMapping(value = "/select/{id}", method = RequestMethod.POST)
+    @GetMapping("/select/{id}")
     public RestResponse<CourseResponseVM> select(@PathVariable Long id) {
         Course course = courseService.selectById(id);
         CourseResponseVM vm = CourseResponseVM.from(course);
         return RestResponse.ok(vm);
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @PostMapping("/edit")
     public RestResponse<CourseResponseVM> edit(@RequestBody @Valid CourseEditRequestVM model) {
         User currentUser = getCurrentUser();
         Course course = courseService.edit(model, currentUser.getId());
@@ -49,53 +49,53 @@ public class CourseController extends BaseApiController {
         return RestResponse.ok(vm);
     }
 
-    @RequestMapping(value = "/changeStatus/{id}", method = RequestMethod.POST)
+    @PutMapping("/changeStatus/{id}")
     public RestResponse<Integer> changeStatus(@PathVariable Long id) {
         Integer newStatus = courseService.changeStatus(id);
         return RestResponse.ok(newStatus);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @DeleteMapping("/delete/{id}")
     public RestResponse delete(@PathVariable Long id) {
         courseService.delete(id);
         return RestResponse.ok();
     }
 
-    @RequestMapping(value = "/{courseId}/teachers", method = RequestMethod.POST)
+    @GetMapping("/{courseId}/teachers")
     public RestResponse<List<CourseTeacherDTO>> getCourseTeachers(@PathVariable Long courseId) {
         List<CourseTeacherDTO> teachers = courseService.getCourseTeachers(courseId);
         return RestResponse.ok(teachers);
     }
 
-    @RequestMapping(value = "/teacher/assign", method = RequestMethod.POST)
+    @PostMapping("/teacher/assign")
     public RestResponse assignTeacher(@RequestBody @Valid CourseTeacherRequestVM model) {
         User currentUser = getCurrentUser();
         courseService.assignTeacher(model, currentUser.getId());
         return RestResponse.ok();
     }
 
-    @RequestMapping(value = "/teacher/revoke", method = RequestMethod.POST)
+    @PostMapping("/teacher/revoke")
     public RestResponse revokeTeacher(@RequestBody @Valid CourseTeacherRequestVM model) {
         courseService.revokeTeacher(model);
         return RestResponse.ok();
     }
 
-    @RequestMapping(value = "/{courseId}/students", method = RequestMethod.POST)
+    @GetMapping("/{courseId}/students")
     public RestResponse<List<CourseStudentDTO>> getCourseStudents(@PathVariable Long courseId) {
         List<CourseStudentDTO> students = courseService.getCourseStudents(courseId);
         return RestResponse.ok(students);
     }
 
-    @RequestMapping(value = "/student/enroll", method = RequestMethod.POST)
+    @PostMapping("/student/enroll")
     public RestResponse enrollStudent(@RequestBody @Valid CourseStudentRequestVM model) {
         User currentUser = getCurrentUser();
         courseService.enrollStudent(model, currentUser.getId());
         return RestResponse.ok();
     }
 
-    @RequestMapping(value = "/student/unenroll", method = RequestMethod.POST)
+    @PostMapping("/student/unenroll")
     public RestResponse unenrollStudent(@RequestBody @Valid CourseStudentRequestVM model) {
         courseService.unenrollStudent(model);
         return RestResponse.ok();
     }
-} 
+}

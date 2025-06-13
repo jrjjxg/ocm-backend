@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.Question">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="question_type" jdbcType="INTEGER" property="questionType" />
-    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="score" jdbcType="INTEGER" property="score" />
     <result column="grade_level" jdbcType="INTEGER" property="gradeLevel" />
@@ -17,7 +16,7 @@
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, question_type, subject_id, course_id, score, grade_level, difficult, correct, info_text_content_id,
+    id, question_type, course_id, score, grade_level, difficult, correct, info_text_content_id,
     create_user, status, create_time, deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -31,12 +30,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.mindskip.xzs.domain.Question" useGeneratedKeys="true" keyProperty="id">
-    insert into t_question (id, question_type, subject_id,
+    insert into t_question (id, question_type,
       course_id, score, grade_level, difficult,
       correct, info_text_content_id, create_user,
       status, create_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{questionType,jdbcType=INTEGER}, #{subjectId,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{questionType,jdbcType=INTEGER},
       #{courseId,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{gradeLevel,jdbcType=INTEGER}, #{difficult,jdbcType=INTEGER},
       #{correct,jdbcType=VARCHAR}, #{infoTextContentId,jdbcType=INTEGER}, #{createUser,jdbcType=INTEGER},
       #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
@@ -50,9 +49,6 @@
       </if>
       <if test="questionType != null">
         question_type,
-      </if>
-      <if test="subjectId != null">
-        subject_id,
       </if>
       <if test="courseId != null">
         course_id,
@@ -92,9 +88,6 @@
       <if test="questionType != null">
         #{questionType,jdbcType=INTEGER},
       </if>
-      <if test="subjectId != null">
-        #{subjectId,jdbcType=INTEGER},
-      </if>
       <if test="courseId != null">
         #{courseId,jdbcType=INTEGER},
       </if>
@@ -133,9 +126,6 @@
       <if test="questionType != null">
         question_type = #{questionType,jdbcType=INTEGER},
       </if>
-      <if test="subjectId != null">
-        subject_id = #{subjectId,jdbcType=INTEGER},
-      </if>
       <if test="courseId != null">
         course_id = #{courseId,jdbcType=INTEGER},
       </if>
@@ -172,7 +162,6 @@
   <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.Question">
     update t_question
     set question_type = #{questionType,jdbcType=INTEGER},
-      subject_id = #{subjectId,jdbcType=INTEGER},
       course_id = #{courseId,jdbcType=INTEGER},
       score = #{score,jdbcType=INTEGER},
       grade_level = #{gradeLevel,jdbcType=INTEGER},
@@ -200,9 +189,6 @@
       </if>
       <if test="level != null ">
         and grade_level= #{level}
-      </if>
-      <if test="subjectId != null ">
-        and subject_id= #{subjectId}
       </if>
       <if test="courseId != null ">
         and course_id= #{courseId}

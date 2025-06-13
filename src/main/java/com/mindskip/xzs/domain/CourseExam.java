@@ -65,6 +65,11 @@ public class CourseExam implements Serializable {
     private Boolean limitIp;
 
     /**
+     * 测验状态(1:未开始,2:进行中,3:已结束,4:已取消)
+     */
+    private Integer status;
+
+    /**
      * 创建者ID (t_user.id)
      */
     private Integer creatorId;
@@ -175,6 +180,14 @@ public class CourseExam implements Serializable {
         this.creatorId = creatorId;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -190,4 +203,4 @@ public class CourseExam implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-} 
+}

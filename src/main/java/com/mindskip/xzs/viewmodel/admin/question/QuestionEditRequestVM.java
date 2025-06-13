@@ -1,23 +1,19 @@
 package com.mindskip.xzs.viewmodel.admin.question;
 
-
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-
 public class QuestionEditRequestVM {
 
     private Integer id;
     @NotNull
     private Integer questionType;
-    @NotNull
-    private Integer subjectId;
-    
+
     private Integer courseId;
-    
+
     @NotBlank
     private String title;
 
@@ -55,14 +51,6 @@ public class QuestionEditRequestVM {
         this.questionType = questionType;
     }
 
-    public Integer getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Integer subjectId) {
-        this.subjectId = subjectId;
-    }
-    
     public Integer getCourseId() {
         return courseId;
     }

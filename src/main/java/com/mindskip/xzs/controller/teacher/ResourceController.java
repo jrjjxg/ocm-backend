@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/teacher")
+@RequestMapping("/api/teacher/courses")
 public class ResourceController extends BaseApiController {
 
     private final FileUploadService fileUploadService;
@@ -29,9 +29,9 @@ public class ResourceController extends BaseApiController {
 
     /**
      * 获取课程下的所有资源
-     * GET /api/teacher/course/{courseId}/resources
+     * GET /api/teacher/courses/{courseId}/resources
      */
-    @GetMapping("/course/{courseId}/resources")
+    @GetMapping("/{courseId}/resources")
     public RestResponse<List<Resource>> getResources(@PathVariable Long courseId) {
         User currentUser = getCurrentUser();
         if (currentUser == null) {
@@ -45,9 +45,9 @@ public class ResourceController extends BaseApiController {
 
     /**
      * 获取特定资源详情
-     * GET /api/teacher/course/{courseId}/resource/{resourceId}
+     * GET /api/teacher/courses/{courseId}/resources/{resourceId}
      */
-    @GetMapping("/course/{courseId}/resource/{resourceId}")
+    @GetMapping("/{courseId}/resources/{resourceId}")
     public RestResponse<Resource> getResource(@PathVariable Long courseId, @PathVariable Long resourceId) {
         User currentUser = getCurrentUser();
         if (currentUser == null) {
@@ -58,20 +58,20 @@ public class ResourceController extends BaseApiController {
         if (resource == null) {
             return RestResponse.fail(404, "资源未找到");
         }
-        
+
         // 校验资源是否属于指定课程
         if (!resource.getCourseId().equals(courseId)) {
             return RestResponse.fail(403, "资源不属于指定的课程");
         }
-        
+
         return RestResponse.ok(resource);
     }
 
     /**
      * 创建新资源 (不含文件上传)
-     * POST /api/teacher/course/{courseId}/resource/create
+     * POST /api/teacher/courses/{courseId}/resources
      */
-    @PostMapping("/course/{courseId}/resource/create")
+    @PostMapping("/{courseId}/resources")
     public RestResponse<Resource> createResource(@PathVariable Long courseId, @RequestBody Resource resource) {
         User currentUser = getCurrentUser();
         if (currentUser == null) {
@@ -89,16 +89,16 @@ public class ResourceController extends BaseApiController {
 
     /**
      * 上传资源文件
-     * POST /api/teacher/course/{courseId}/resource/upload
+     * POST /api/teacher/courses/{courseId}/resources/upload
      */
-    @PostMapping("/course/{courseId}/resource/upload")
+    @PostMapping("/{courseId}/resources/upload")
     public RestResponse<Resource> uploadResource(
             @PathVariable Long courseId,
             @RequestParam("file") MultipartFile file,
             @RequestParam("title") String title,
             @RequestParam(value = "description", required = false) String description,
             @RequestParam("type") Integer type) {
-        
+
         User currentUser = getCurrentUser();
         if (currentUser == null) {
             return RestResponse.fail(401, "用户未登录");
@@ -142,7 +142,7 @@ public class ResourceController extends BaseApiController {
             @PathVariable Long courseId,
             @PathVariable Long resourceId,
             @RequestBody Resource resourceDetails) {
-        
+
         User currentUser = getCurrentUser();
         if (currentUser == null) {
             return RestResponse.fail(401, "用户未登录");
@@ -198,7 +198,7 @@ public class ResourceController extends BaseApiController {
         if (!existingResource.getCourseId().equals(courseId)) {
             return RestResponse.fail(403, "资源不属于指定的课程");
         }
-        
+
         // 权限校验：确保是上传者本人才能删除
         if (!existingResource.getUploaderId().equals(currentUser.getId())) {
             return RestResponse.fail(403, "无权限删除此资源，只有上传者可以删除");
@@ -220,4 +220,4 @@ public class ResourceController extends BaseApiController {
     public RestResponse<?> deleteResourceByPost(@PathVariable Long courseId, @PathVariable Long resourceId) {
         return deleteResource(courseId, resourceId);
     }
-} 
+}

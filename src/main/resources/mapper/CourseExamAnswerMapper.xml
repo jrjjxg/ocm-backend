@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.CourseExamAnswerMapper">
+    
+    <!-- 基础结果映射 -->
+    <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.CourseExamAnswer">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="course_exam_id" jdbcType="BIGINT" property="courseExamId"/>
+        <result column="exam_paper_answer_id" jdbcType="INTEGER" property="examPaperAnswerId"/>
+        <result column="student_id" jdbcType="INTEGER" property="studentId"/>
+        <result column="attempt_number" jdbcType="INTEGER" property="attemptNumber"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    
+    <!-- 基础SQL片段 -->
+    <sql id="Base_Column_List">
+        id, course_exam_id, exam_paper_answer_id, student_id, attempt_number,
+        start_time, submit_time, status, create_time, update_time
+    </sql>
+    
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_course_exam_answer
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据课程测验ID和学生ID查询答卷记录 -->
+    <select id="selectByCourseExamIdAndStudentId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_course_exam_answer
+        where course_exam_id = #{courseExamId,jdbcType=BIGINT} 
+        and student_id = #{studentId,jdbcType=INTEGER}
+        order by attempt_number desc
+    </select>
+    
+    <!-- 根据课程测验ID查询所有答卷记录 -->
+    <select id="selectByCourseExamId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_course_exam_answer
+        where course_exam_id = #{courseExamId,jdbcType=BIGINT}
+        order by create_time desc
+    </select>
+    
+    <!-- 查询学生在某个测验中的答题次数 -->
+    <select id="countByStudentAndCourseExam" resultType="java.lang.Integer">
+        select count(*)
+        from t_course_exam_answer
+        where course_exam_id = #{courseExamId,jdbcType=BIGINT} 
+        and student_id = #{studentId,jdbcType=INTEGER}
+    </select>
+    
+    <!-- 查询学生在某个测验中的最新答卷记录 -->
+    <select id="selectLatestByStudentAndCourseExam" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_course_exam_answer
+        where course_exam_id = #{courseExamId,jdbcType=BIGINT} 
+        and student_id = #{studentId,jdbcType=INTEGER}
+        order by attempt_number desc
+        limit 1
+    </select>
+    
+    <!-- 统计课程测验的参与人数 -->
+    <select id="countParticipantsByCourseExamId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(distinct student_id)
+        from t_course_exam_answer
+        where course_exam_id = #{courseExamId,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 统计课程测验的提交人数 -->
+    <select id="countSubmissionsByCourseExamId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(distinct student_id)
+        from t_course_exam_answer
+        where course_exam_id = #{courseExamId,jdbcType=BIGINT}
+        and status = 2
+    </select>
+    
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="com.mindskip.xzs.domain.CourseExamAnswer" useGeneratedKeys="true" keyProperty="id">
+        insert into t_course_exam_answer (course_exam_id, exam_paper_answer_id, student_id, attempt_number,
+                                         start_time, submit_time, status, create_time, update_time)
+        values (#{courseExamId,jdbcType=BIGINT}, #{examPaperAnswerId,jdbcType=INTEGER}, 
+                #{studentId,jdbcType=INTEGER}, #{attemptNumber,jdbcType=INTEGER},
+                #{startTime,jdbcType=TIMESTAMP}, #{submitTime,jdbcType=TIMESTAMP}, 
+                #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+                #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.CourseExamAnswer" useGeneratedKeys="true" keyProperty="id">
+        insert into t_course_exam_answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseExamId != null">course_exam_id,</if>
+            <if test="examPaperAnswerId != null">exam_paper_answer_id,</if>
+            <if test="studentId != null">student_id,</if>
+            <if test="attemptNumber != null">attempt_number,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="submitTime != null">submit_time,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseExamId != null">#{courseExamId,jdbcType=BIGINT},</if>
+            <if test="examPaperAnswerId != null">#{examPaperAnswerId,jdbcType=INTEGER},</if>
+            <if test="studentId != null">#{studentId,jdbcType=INTEGER},</if>
+            <if test="attemptNumber != null">#{attemptNumber,jdbcType=INTEGER},</if>
+            <if test="startTime != null">#{startTime,jdbcType=TIMESTAMP},</if>
+            <if test="submitTime != null">#{submitTime,jdbcType=TIMESTAMP},</if>
+            <if test="status != null">#{status,jdbcType=INTEGER},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <!-- 更新记录 -->
+    <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.CourseExamAnswer">
+        update t_course_exam_answer
+        set course_exam_id = #{courseExamId,jdbcType=BIGINT},
+            exam_paper_answer_id = #{examPaperAnswerId,jdbcType=INTEGER},
+            student_id = #{studentId,jdbcType=INTEGER},
+            attempt_number = #{attemptNumber,jdbcType=INTEGER},
+            start_time = #{startTime,jdbcType=TIMESTAMP},
+            submit_time = #{submitTime,jdbcType=TIMESTAMP},
+            status = #{status,jdbcType=INTEGER},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    
+    <!-- 选择性更新记录 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.CourseExamAnswer">
+        update t_course_exam_answer
+        <set>
+            <if test="courseExamId != null">course_exam_id = #{courseExamId,jdbcType=BIGINT},</if>
+            <if test="examPaperAnswerId != null">exam_paper_answer_id = #{examPaperAnswerId,jdbcType=INTEGER},</if>
+            <if test="studentId != null">student_id = #{studentId,jdbcType=INTEGER},</if>
+            <if test="attemptNumber != null">attempt_number = #{attemptNumber,jdbcType=INTEGER},</if>
+            <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP},</if>
+            <if test="submitTime != null">submit_time = #{submitTime,jdbcType=TIMESTAMP},</if>
+            <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_course_exam_answer
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    
+</mapper>

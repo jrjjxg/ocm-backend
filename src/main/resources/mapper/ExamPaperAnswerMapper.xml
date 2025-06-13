@@ -273,21 +273,21 @@
   <select id="selectByCourseIdAndExamId" resultMap="BaseResultMap">
     select a.*
     from t_exam_paper_answer a
-    join t_course_exam ce on a.exam_paper_id = ce.exam_paper_id
+    join t_course_exam ce on a.exam_paper_id = ce.exam_id
     where ce.course_id = #{courseId} and ce.id = #{examId}
   </select>
   
   <select id="countByExamId" resultType="java.lang.Integer">
     select count(*)
     from t_exam_paper_answer a
-    join t_course_exam ce on a.exam_paper_id = ce.exam_paper_id
+    join t_course_exam ce on a.exam_paper_id = ce.exam_id
     where ce.id = #{examId}
   </select>
   
   <select id="selectByExamIdAndConditions" resultMap="BaseResultMap">
     select a.*
     from t_exam_paper_answer a
-    join t_course_exam ce on a.exam_paper_id = ce.exam_paper_id
+    join t_course_exam ce on a.exam_paper_id = ce.exam_id
     left join t_user u on a.create_user = u.id
     where ce.id = #{examId}
     <if test="studentName != null and studentName != ''">

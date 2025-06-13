@@ -113,12 +113,7 @@ public interface UserMapper extends BaseMapper<User> {
      */
     void deleteUsersByIds(List<Integer> ids);
 
-    /**
-     * insertUserSql
-     *
-     * @param user user
-     */
-    void insertUserSql(User user);
+
 
     Integer selectAllCount();
 

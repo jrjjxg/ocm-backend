@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.HomeworkMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.Homework">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="total_score" jdbcType="INTEGER" property="totalScore" />
+    <result column="attempt_limit" jdbcType="INTEGER" property="attemptLimit" />
+    <result column="time_limit" jdbcType="INTEGER" property="timeLimit" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="settings_text_content_id" jdbcType="INTEGER" property="settingsTextContentId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, title, description, course_id, create_user, start_time, end_time, total_score, 
+    attempt_limit, time_limit, status, settings_text_content_id, create_time, update_time, deleted
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_homework
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_homework
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.Homework" useGeneratedKeys="true" keyProperty="id">
+    insert into t_homework
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">title,</if>
+      <if test="description != null">description,</if>
+      <if test="courseId != null">course_id,</if>
+      <if test="createUser != null">create_user,</if>
+      <if test="startTime != null">start_time,</if>
+      <if test="endTime != null">end_time,</if>
+      <if test="totalScore != null">total_score,</if>
+      <if test="attemptLimit != null">attempt_limit,</if>
+      <if test="timeLimit != null">time_limit,</if>
+      <if test="status != null">status,</if>
+      <if test="settingsTextContentId != null">settings_text_content_id,</if>
+      <if test="createTime != null">create_time,</if>
+      <if test="updateTime != null">update_time,</if>
+      <if test="deleted != null">deleted,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">#{title,jdbcType=VARCHAR},</if>
+      <if test="description != null">#{description,jdbcType=VARCHAR},</if>
+      <if test="courseId != null">#{courseId,jdbcType=INTEGER},</if>
+      <if test="createUser != null">#{createUser,jdbcType=INTEGER},</if>
+      <if test="startTime != null">#{startTime,jdbcType=TIMESTAMP},</if>
+      <if test="endTime != null">#{endTime,jdbcType=TIMESTAMP},</if>
+      <if test="totalScore != null">#{totalScore,jdbcType=INTEGER},</if>
+      <if test="attemptLimit != null">#{attemptLimit,jdbcType=INTEGER},</if>
+      <if test="timeLimit != null">#{timeLimit,jdbcType=INTEGER},</if>
+      <if test="status != null">#{status,jdbcType=INTEGER},</if>
+      <if test="settingsTextContentId != null">#{settingsTextContentId,jdbcType=INTEGER},</if>
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+      <if test="deleted != null">#{deleted,jdbcType=BIT},</if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.Homework">
+    update t_homework
+    <set>
+      <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>
+      <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
+      <if test="courseId != null">course_id = #{courseId,jdbcType=INTEGER},</if>
+      <if test="createUser != null">create_user = #{createUser,jdbcType=INTEGER},</if>
+      <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP},</if>
+      <if test="endTime != null">end_time = #{endTime,jdbcType=TIMESTAMP},</if>
+      <if test="totalScore != null">total_score = #{totalScore,jdbcType=INTEGER},</if>
+      <if test="attemptLimit != null">attempt_limit = #{attemptLimit,jdbcType=INTEGER},</if>
+      <if test="timeLimit != null">time_limit = #{timeLimit,jdbcType=INTEGER},</if>
+      <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+      <if test="settingsTextContentId != null">settings_text_content_id = #{settingsTextContentId,jdbcType=INTEGER},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+      <if test="deleted != null">deleted = #{deleted,jdbcType=BIT},</if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 分页查询作业列表 -->
+  <select id="page" resultMap="BaseResultMap" parameterType="com.mindskip.xzs.viewmodel.admin.homework.HomeworkPageRequestVM">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework
+    <if test="pendingGrade != null and pendingGrade == true">
+      INNER JOIN (
+        SELECT DISTINCT homework_id
+        FROM t_homework_answer 
+        WHERE status = 2
+      ) ha ON t_homework.id = ha.homework_id
+    </if>
+    <where>
+        and deleted = 0
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="courseId != null">
+        and course_id = #{courseId}
+      </if>
+      <if test="title != null and title != ''">
+        and title like concat('%',#{title},'%')
+      </if>
+      <if test="status != null">
+        and status = #{status}
+      </if>
+      <if test="teacherId != null">
+        and create_user = #{teacherId}
+      </if>
+      <if test="pendingGrade != null and pendingGrade == true">
+        and status = 2
+      </if>
+    </where>
+    order by create_time desc
+  </select>
+  
+  <!-- 根据课程ID查询作业列表 -->
+  <select id="selectByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework
+    WHERE course_id = #{courseId} AND deleted = 0
+    ORDER BY create_time DESC
+  </select>
+  
+  <!-- 根据教师ID查询作业列表 -->
+  <select id="selectByTeacherId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework
+    WHERE create_user = #{teacherId} AND deleted = 0
+    ORDER BY create_time DESC
+  </select>
+  
+</mapper> 

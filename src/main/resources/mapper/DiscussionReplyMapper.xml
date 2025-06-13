@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.DiscussionReplyMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.DiscussionReply">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="discussion_id" jdbcType="BIGINT" property="discussionId" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="replier_id" jdbcType="INTEGER" property="replierId" />
+    <result column="replier_type" jdbcType="INTEGER" property="replierType" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, discussion_id, content, replier_id, replier_type, parent_id, create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion_reply
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_discussion_reply
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.mindskip.xzs.domain.DiscussionReply" useGeneratedKeys="true" keyProperty="id">
+    insert into t_discussion_reply (id, discussion_id, content, 
+      replier_id, replier_type, parent_id, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{discussionId,jdbcType=BIGINT}, #{content,jdbcType=LONGVARCHAR}, 
+      #{replierId,jdbcType=INTEGER}, #{replierType,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.DiscussionReply" useGeneratedKeys="true" keyProperty="id">
+    insert into t_discussion_reply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="discussionId != null">
+        discussion_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="replierId != null">
+        replier_id,
+      </if>
+      <if test="replierType != null">
+        replier_type,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="discussionId != null">
+        #{discussionId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="replierId != null">
+        #{replierId,jdbcType=INTEGER},
+      </if>
+      <if test="replierType != null">
+        #{replierType,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.DiscussionReply">
+    update t_discussion_reply
+    <set>
+      <if test="discussionId != null">
+        discussion_id = #{discussionId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="replierId != null">
+        replier_id = #{replierId,jdbcType=INTEGER},
+      </if>
+      <if test="replierType != null">
+        replier_type = #{replierType,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.DiscussionReply">
+    update t_discussion_reply
+    set discussion_id = #{discussionId,jdbcType=BIGINT},
+      content = #{content,jdbcType=LONGVARCHAR},
+      replier_id = #{replierId,jdbcType=INTEGER},
+      replier_type = #{replierType,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 根据讨论ID查询回复列表（分页）-->
+  <select id="selectByDiscussionId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion_reply
+    where discussion_id = #{discussionId,jdbcType=BIGINT} and parent_id is null
+    order by create_time asc
+    limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
+  </select>
+
+  <!-- 根据讨论ID统计回复总数 -->
+  <select id="countByDiscussionId" resultType="java.lang.Integer">
+    select count(*)
+    from t_discussion_reply
+    where discussion_id = #{discussionId,jdbcType=BIGINT}
+  </select>
+
+  <!-- 根据父回复ID查询子回复 -->
+  <select id="selectByParentId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion_reply
+    where parent_id = #{parentId,jdbcType=BIGINT}
+    order by create_time asc
+  </select>
+
+  <!-- 删除讨论下的所有回复 -->
+  <delete id="deleteByDiscussionId">
+    delete from t_discussion_reply
+    where discussion_id = #{discussionId,jdbcType=BIGINT}
+  </delete>
+
+  <!-- 验证用户是否有权限操作该回复 -->
+  <select id="validateReplyOwner" resultType="java.lang.Integer">
+    select count(*)
+    from t_discussion_reply
+    where id = #{id,jdbcType=BIGINT} and replier_id = #{replierId,jdbcType=INTEGER}
+  </select>
+
+  <!-- 根据回复者ID查询回复 -->
+  <select id="selectByReplierId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discussion_reply
+    where replier_id = #{replierId,jdbcType=INTEGER}
+    order by create_time desc
+    limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
+  </select>
+</mapper> 

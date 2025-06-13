@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.HomeworkQuestionMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.HomeworkQuestion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="homework_id" jdbcType="INTEGER" property="homeworkId" />
+    <result column="question_id" jdbcType="INTEGER" property="questionId" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="item_order" jdbcType="INTEGER" property="itemOrder" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, homework_id, question_id, score, item_order, create_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_homework_question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_homework_question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.HomeworkQuestion" useGeneratedKeys="true" keyProperty="id">
+    insert into t_homework_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="homeworkId != null">homework_id,</if>
+      <if test="questionId != null">question_id,</if>
+      <if test="score != null">score,</if>
+      <if test="itemOrder != null">item_order,</if>
+      <if test="createTime != null">create_time,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="homeworkId != null">#{homeworkId,jdbcType=INTEGER},</if>
+      <if test="questionId != null">#{questionId,jdbcType=INTEGER},</if>
+      <if test="score != null">#{score,jdbcType=INTEGER},</if>
+      <if test="itemOrder != null">#{itemOrder,jdbcType=INTEGER},</if>
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.HomeworkQuestion">
+    update t_homework_question
+    <set>
+      <if test="homeworkId != null">homework_id = #{homeworkId,jdbcType=INTEGER},</if>
+      <if test="questionId != null">question_id = #{questionId,jdbcType=INTEGER},</if>
+      <if test="score != null">score = #{score,jdbcType=INTEGER},</if>
+      <if test="itemOrder != null">item_order = #{itemOrder,jdbcType=INTEGER},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据作业ID查询题目列表 -->
+  <select id="selectByHomeworkId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework_question
+    WHERE homework_id = #{homeworkId}
+    ORDER BY item_order, id
+  </select>
+  
+  <!-- 根据作业ID删除题目 -->
+  <delete id="deleteByHomeworkId" parameterType="java.lang.Integer">
+    delete from t_homework_question
+    where homework_id = #{homeworkId}
+  </delete>
+  
+</mapper> 

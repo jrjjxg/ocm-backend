@@ -17,10 +17,11 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="student_number" jdbcType="VARCHAR" property="studentId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="final_score" jdbcType="REAL" property="finalScore" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="enroll_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -50,7 +51,15 @@
   
   <select id="getCourseStudents" resultMap="CourseStudentDTOMap">
     SELECT 
-      u.id, u.user_name, u.real_name, cs.status, cs.final_score, cs.create_time
+      u.id, 
+      u.id as user_id,
+      u.user_name, 
+      u.real_name, 
+      u.id as student_number,
+      u.phone,
+      cs.status, 
+      cs.final_score, 
+      cs.create_time as enroll_time
     FROM 
       t_course_student cs
     JOIN 
@@ -63,7 +72,15 @@
   
   <select id="getCourseStudentsWithPage" resultMap="CourseStudentDTOMap">
     SELECT 
-      u.id, u.user_name, u.real_name, cs.status, cs.final_score, cs.create_time
+      u.id, 
+      u.id as user_id,
+      u.user_name, 
+      u.real_name, 
+      u.id as student_number,
+      u.phone,
+      cs.status, 
+      cs.final_score, 
+      cs.create_time as enroll_time
     FROM 
       t_course_student cs
     JOIN 
@@ -72,7 +89,8 @@
       cs.course_id = #{courseId,jdbcType=BIGINT}
       <if test="keyword != null and keyword != ''">
         AND (u.user_name LIKE CONCAT('%', #{keyword}, '%') 
-          OR u.real_name LIKE CONCAT('%', #{keyword}, '%'))
+          OR u.real_name LIKE CONCAT('%', #{keyword}, '%')
+          OR u.id LIKE CONCAT('%', #{keyword}, '%'))
       </if>
     ORDER BY 
       cs.create_time DESC
@@ -80,7 +98,7 @@
   
   <select id="selectByCourseId" resultMap="CourseStudentDTOMap">
     SELECT 
-      cs.id, u.id as user_id, u.user_name, u.real_name, u.user_uuid as student_id, cs.status, cs.final_score, cs.create_time
+      cs.id, u.id as user_id, u.user_name, u.real_name, u.id as student_number, cs.status, cs.final_score, cs.create_time
     FROM 
       t_course_student cs
     JOIN 

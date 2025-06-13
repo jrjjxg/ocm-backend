@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("StudentCourseController")
+@RestController("StudentCourseApiController")
 @RequestMapping(value = "/api/student/courses")
 public class CourseController extends BaseApiController {
 
@@ -25,7 +25,8 @@ public class CourseController extends BaseApiController {
     private final ResourceService resourceService;
 
     @Autowired
-    public CourseController(CourseService courseService, StudentCourseService studentCourseService, ResourceService resourceService) {
+    public CourseController(CourseService courseService, StudentCourseService studentCourseService,
+            ResourceService resourceService) {
         this.courseService = courseService;
         this.studentCourseService = studentCourseService;
         this.resourceService = resourceService;
@@ -79,11 +80,11 @@ public class CourseController extends BaseApiController {
     @PostMapping("/{courseId}/enroll")
     public RestResponse<?> enrollCourse(@PathVariable Long courseId) {
         User currentUser = getCurrentUser();
-        
+
         CourseStudentRequestVM requestVM = new CourseStudentRequestVM();
         requestVM.setCourseId(courseId);
         requestVM.setStudentId(currentUser.getId());
-        
+
         try {
             courseService.enrollStudent(requestVM, currentUser.getId());
             return RestResponse.ok();
@@ -101,11 +102,11 @@ public class CourseController extends BaseApiController {
     @DeleteMapping("/{courseId}/enroll")
     public RestResponse<?> unenrollCourse(@PathVariable Long courseId) {
         User currentUser = getCurrentUser();
-        
+
         CourseStudentRequestVM requestVM = new CourseStudentRequestVM();
         requestVM.setCourseId(courseId);
         requestVM.setStudentId(currentUser.getId());
-        
+
         try {
             courseService.unenrollStudent(requestVM);
             return RestResponse.ok();
@@ -128,8 +129,8 @@ public class CourseController extends BaseApiController {
         if (!isEnrolled) {
             return RestResponse.fail(403, "您未选修该课程，无法访问资源");
         }
-        
+
         List<Resource> resources = resourceService.getResourcesByCourseId(courseId);
         return RestResponse.ok(resources);
     }
-} 
+}

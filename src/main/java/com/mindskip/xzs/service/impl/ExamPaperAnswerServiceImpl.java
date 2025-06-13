@@ -51,7 +51,11 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
     private final UserMapper userMapper;
 
     @Autowired
-    public ExamPaperAnswerServiceImpl(ExamPaperAnswerMapper examPaperAnswerMapper, ExamPaperMapper examPaperMapper, TextContentService textContentService, QuestionMapper questionMapper, ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService, TaskExamCustomerAnswerMapper taskExamCustomerAnswerMapper, CourseExamMapper courseExamMapper, CourseStudentMapper courseStudentMapper, UserMapper userMapper) {
+    public ExamPaperAnswerServiceImpl(ExamPaperAnswerMapper examPaperAnswerMapper, ExamPaperMapper examPaperMapper,
+            TextContentService textContentService, QuestionMapper questionMapper,
+            ExamPaperQuestionCustomerAnswerService examPaperQuestionCustomerAnswerService,
+            TaskExamCustomerAnswerMapper taskExamCustomerAnswerMapper, CourseExamMapper courseExamMapper,
+            CourseStudentMapper courseStudentMapper, UserMapper userMapper) {
         super(examPaperAnswerMapper);
         this.examPaperAnswerMapper = examPaperAnswerMapper;
         this.examPaperMapper = examPaperMapper;
@@ -66,10 +70,9 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
 
     @Override
     public PageInfo<ExamPaperAnswer> studentPage(ExamPaperAnswerPageVM requestVM) {
-        return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "id desc").doSelectPageInfo(() ->
-                examPaperAnswerMapper.studentPage(requestVM));
+        return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "id desc")
+                .doSelectPageInfo(() -> examPaperAnswerMapper.studentPage(requestVM));
     }
-
 
     @Override
     public ExamPaperAnswerInfo calculateExamPaperAnswer(ExamPaperSubmitVM examPaperSubmitVM, User user) {
@@ -77,30 +80,36 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         Date now = new Date();
         ExamPaper examPaper = examPaperMapper.selectByPrimaryKey(examPaperSubmitVM.getId());
         ExamPaperTypeEnum paperTypeEnum = ExamPaperTypeEnum.fromCode(examPaper.getPaperType());
-        //任务试卷只能做一次
+        // 任务试卷只能做一次
         if (paperTypeEnum == ExamPaperTypeEnum.Task) {
-            ExamPaperAnswer examPaperAnswer = examPaperAnswerMapper.getByPidUid(examPaperSubmitVM.getId(), user.getId());
+            ExamPaperAnswer examPaperAnswer = examPaperAnswerMapper.getByPidUid(examPaperSubmitVM.getId(),
+                    user.getId());
             if (null != examPaperAnswer)
                 return null;
         }
         String frameTextContent = textContentService.selectById(examPaper.getFrameTextContentId()).getContent();
-        List<ExamPaperTitleItemObject> examPaperTitleItemObjects = JsonUtil.toJsonListObject(frameTextContent, ExamPaperTitleItemObject.class);
-        List<Integer> questionIds = examPaperTitleItemObjects.stream().flatMap(t -> t.getQuestionItems().stream().map(q -> q.getId())).collect(Collectors.toList());
+        List<ExamPaperTitleItemObject> examPaperTitleItemObjects = JsonUtil.toJsonListObject(frameTextContent,
+                ExamPaperTitleItemObject.class);
+        List<Integer> questionIds = examPaperTitleItemObjects.stream()
+                .flatMap(t -> t.getQuestionItems().stream().map(q -> q.getId())).collect(Collectors.toList());
         List<Question> questions = questionMapper.selectByIds(questionIds);
-        //将题目结构的转化为题目答案
+        // 将题目结构的转化为题目答案
         List<ExamPaperQuestionCustomerAnswer> examPaperQuestionCustomerAnswers = examPaperTitleItemObjects.stream()
                 .flatMap(t -> t.getQuestionItems().stream()
                         .map(q -> {
-                            Question question = questions.stream().filter(tq -> tq.getId().equals(q.getId())).findFirst().get();
+                            Question question = questions.stream().filter(tq -> tq.getId().equals(q.getId()))
+                                    .findFirst().get();
                             ExamPaperSubmitItemVM customerQuestionAnswer = examPaperSubmitVM.getAnswerItems().stream()
                                     .filter(tq -> tq.getQuestionId().equals(q.getId()))
                                     .findFirst()
                                     .orElse(null);
-                            return ExamPaperQuestionCustomerAnswerFromVM(question, customerQuestionAnswer, examPaper, q.getItemOrder(), user, now);
-                        })
-                ).collect(Collectors.toList());
+                            return ExamPaperQuestionCustomerAnswerFromVM(question, customerQuestionAnswer, examPaper,
+                                    q.getItemOrder(), user, now);
+                        }))
+                .collect(Collectors.toList());
 
-        ExamPaperAnswer examPaperAnswer = ExamPaperAnswerFromVM(examPaperSubmitVM, examPaper, examPaperQuestionCustomerAnswers, user, now);
+        ExamPaperAnswer examPaperAnswer = ExamPaperAnswerFromVM(examPaperSubmitVM, examPaper,
+                examPaperQuestionCustomerAnswers, user, now);
         examPaperAnswerInfo.setExamPaper(examPaper);
         examPaperAnswerInfo.setExamPaperAnswer(examPaperAnswer);
         examPaperAnswerInfo.setExamPaperQuestionCustomerAnswers(examPaperQuestionCustomerAnswers);
@@ -111,7 +120,8 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
     @Transactional
     public String judge(ExamPaperSubmitVM examPaperSubmitVM) {
         ExamPaperAnswer examPaperAnswer = examPaperAnswerMapper.selectByPrimaryKey(examPaperSubmitVM.getId());
-        List<ExamPaperSubmitItemVM> judgeItems = examPaperSubmitVM.getAnswerItems().stream().filter(d -> d.getDoRight() == null).collect(Collectors.toList());
+        List<ExamPaperSubmitItemVM> judgeItems = examPaperSubmitVM.getAnswerItems().stream()
+                .filter(d -> d.getDoRight() == null).collect(Collectors.toList());
         List<ExamPaperAnswerUpdate> examPaperAnswerUpdates = new ArrayList<>(judgeItems.size());
         Integer customerScore = examPaperAnswer.getUserScore();
         Integer questionCorrect = examPaperAnswer.getQuestionCorrect();
@@ -119,7 +129,8 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
             ExamPaperAnswerUpdate examPaperAnswerUpdate = new ExamPaperAnswerUpdate();
             examPaperAnswerUpdate.setId(d.getId());
             examPaperAnswerUpdate.setCustomerScore(ExamUtil.scoreFromVM(d.getScore()));
-            boolean doRight = examPaperAnswerUpdate.getCustomerScore().equals(ExamUtil.scoreFromVM(d.getQuestionScore()));
+            boolean doRight = examPaperAnswerUpdate.getCustomerScore()
+                    .equals(ExamUtil.scoreFromVM(d.getQuestionScore()));
             examPaperAnswerUpdate.setDoRight(doRight);
             examPaperAnswerUpdates.add(examPaperAnswerUpdate);
             customerScore += examPaperAnswerUpdate.getCustomerScore();
@@ -136,16 +147,18 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         ExamPaperTypeEnum examPaperTypeEnum = ExamPaperTypeEnum.fromCode(examPaperAnswer.getPaperType());
         switch (examPaperTypeEnum) {
             case Task:
-                //任务试卷批改完成后，需要更新任务的状态
+                // 任务试卷批改完成后，需要更新任务的状态
                 ExamPaper examPaper = examPaperMapper.selectByPrimaryKey(examPaperAnswer.getExamPaperId());
                 Integer taskId = examPaper.getTaskExamId();
                 Integer userId = examPaperAnswer.getCreateUser();
                 TaskExamCustomerAnswer taskExamCustomerAnswer = taskExamCustomerAnswerMapper.getByTUid(taskId, userId);
                 TextContent textContent = textContentService.selectById(taskExamCustomerAnswer.getTextContentId());
-                List<TaskItemAnswerObject> taskItemAnswerObjects = JsonUtil.toJsonListObject(textContent.getContent(), TaskItemAnswerObject.class);
+                List<TaskItemAnswerObject> taskItemAnswerObjects = JsonUtil.toJsonListObject(textContent.getContent(),
+                        TaskItemAnswerObject.class);
                 taskItemAnswerObjects.stream()
                         .filter(d -> d.getExamPaperAnswerId().equals(examPaperAnswer.getId()))
-                        .findFirst().ifPresent(taskItemAnswerObject -> taskItemAnswerObject.setStatus(examPaperAnswer.getStatus()));
+                        .findFirst()
+                        .ifPresent(taskItemAnswerObject -> taskItemAnswerObject.setStatus(examPaperAnswer.getStatus()));
                 textContentService.jsonConvertUpdate(textContent, taskItemAnswerObjects, null);
                 textContentService.updateByIdFilter(textContent);
                 break;
@@ -162,7 +175,8 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         examPaperSubmitVM.setId(examPaperAnswer.getId());
         examPaperSubmitVM.setDoTime(examPaperAnswer.getDoTime());
         examPaperSubmitVM.setScore(ExamUtil.scoreToVM(examPaperAnswer.getUserScore()));
-        List<ExamPaperQuestionCustomerAnswer> examPaperQuestionCustomerAnswers = examPaperQuestionCustomerAnswerService.selectListByPaperAnswerId(examPaperAnswer.getId());
+        List<ExamPaperQuestionCustomerAnswer> examPaperQuestionCustomerAnswers = examPaperQuestionCustomerAnswerService
+                .selectListByPaperAnswerId(examPaperAnswer.getId());
         List<ExamPaperSubmitItemVM> examPaperSubmitItemVMS = examPaperQuestionCustomerAnswers.stream()
                 .map(a -> examPaperQuestionCustomerAnswerService.examPaperQuestionCustomerAnswerToVM(a))
                 .collect(Collectors.toList());
@@ -187,7 +201,6 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         }).collect(Collectors.toList());
     }
 
-
     /**
      * 用户提交答案的转化存储对象
      *
@@ -199,7 +212,8 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
      * @param now                    now
      * @return ExamPaperQuestionCustomerAnswer
      */
-    private ExamPaperQuestionCustomerAnswer ExamPaperQuestionCustomerAnswerFromVM(Question question, ExamPaperSubmitItemVM customerQuestionAnswer, ExamPaper examPaper, Integer itemOrder, User user, Date now) {
+    private ExamPaperQuestionCustomerAnswer ExamPaperQuestionCustomerAnswerFromVM(Question question,
+            ExamPaperSubmitItemVM customerQuestionAnswer, ExamPaper examPaper, Integer itemOrder, User user, Date now) {
         ExamPaperQuestionCustomerAnswer examPaperQuestionCustomerAnswer = new ExamPaperQuestionCustomerAnswer();
         examPaperQuestionCustomerAnswer.setQuestionId(question.getId());
         examPaperQuestionCustomerAnswer.setExamPaperId(examPaper.getId());
@@ -225,20 +239,25 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
      * @param question                        question
      * @param customerQuestionAnswer          customerQuestionAnswer
      */
-    private void setSpecialFromVM(ExamPaperQuestionCustomerAnswer examPaperQuestionCustomerAnswer, Question question, ExamPaperSubmitItemVM customerQuestionAnswer) {
-        QuestionTypeEnum questionTypeEnum = QuestionTypeEnum.fromCode(examPaperQuestionCustomerAnswer.getQuestionType());
+    private void setSpecialFromVM(ExamPaperQuestionCustomerAnswer examPaperQuestionCustomerAnswer, Question question,
+            ExamPaperSubmitItemVM customerQuestionAnswer) {
+        QuestionTypeEnum questionTypeEnum = QuestionTypeEnum
+                .fromCode(examPaperQuestionCustomerAnswer.getQuestionType());
         switch (questionTypeEnum) {
             case SingleChoice:
             case TrueFalse:
                 examPaperQuestionCustomerAnswer.setAnswer(customerQuestionAnswer.getContent());
-                examPaperQuestionCustomerAnswer.setDoRight(question.getCorrect().equals(customerQuestionAnswer.getContent()));
-                examPaperQuestionCustomerAnswer.setCustomerScore(examPaperQuestionCustomerAnswer.getDoRight() ? question.getScore() : 0);
+                examPaperQuestionCustomerAnswer
+                        .setDoRight(question.getCorrect().equals(customerQuestionAnswer.getContent()));
+                examPaperQuestionCustomerAnswer
+                        .setCustomerScore(examPaperQuestionCustomerAnswer.getDoRight() ? question.getScore() : 0);
                 break;
             case MultipleChoice:
                 String customerAnswer = ExamUtil.contentToString(customerQuestionAnswer.getContentArray());
                 examPaperQuestionCustomerAnswer.setAnswer(customerAnswer);
                 examPaperQuestionCustomerAnswer.setDoRight(customerAnswer.equals(question.getCorrect()));
-                examPaperQuestionCustomerAnswer.setCustomerScore(examPaperQuestionCustomerAnswer.getDoRight() ? question.getScore() : 0);
+                examPaperQuestionCustomerAnswer
+                        .setCustomerScore(examPaperQuestionCustomerAnswer.getDoRight() ? question.getScore() : 0);
                 break;
             case GapFilling:
                 String correctAnswer = JsonUtil.toJsonStr(customerQuestionAnswer.getContentArray());
@@ -252,9 +271,11 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         }
     }
 
-    private ExamPaperAnswer ExamPaperAnswerFromVM(ExamPaperSubmitVM examPaperSubmitVM, ExamPaper examPaper, List<ExamPaperQuestionCustomerAnswer> examPaperQuestionCustomerAnswers, User user, Date now) {
+    private ExamPaperAnswer ExamPaperAnswerFromVM(ExamPaperSubmitVM examPaperSubmitVM, ExamPaper examPaper,
+            List<ExamPaperQuestionCustomerAnswer> examPaperQuestionCustomerAnswers, User user, Date now) {
         Integer systemScore = examPaperQuestionCustomerAnswers.stream().mapToInt(a -> a.getCustomerScore()).sum();
-        long questionCorrect = examPaperQuestionCustomerAnswers.stream().filter(a -> a.getCustomerScore().equals(a.getQuestionScore())).count();
+        long questionCorrect = examPaperQuestionCustomerAnswers.stream()
+                .filter(a -> a.getCustomerScore().equals(a.getQuestionScore())).count();
         ExamPaperAnswer examPaperAnswer = new ExamPaperAnswer();
         examPaperAnswer.setPaperName(examPaper.getName());
         examPaperAnswer.setDoTime(examPaperSubmitVM.getDoTime());
@@ -269,7 +290,8 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         examPaperAnswer.setUserScore(systemScore);
         examPaperAnswer.setTaskExamId(examPaper.getTaskExamId());
         examPaperAnswer.setQuestionCorrect((int) questionCorrect);
-        boolean needJudge = examPaperQuestionCustomerAnswers.stream().anyMatch(d -> QuestionTypeEnum.needSaveTextContent(d.getQuestionType()));
+        boolean needJudge = examPaperQuestionCustomerAnswers.stream()
+                .anyMatch(d -> QuestionTypeEnum.needSaveTextContent(d.getQuestionType()));
         if (needJudge) {
             examPaperAnswer.setStatus(ExamPaperAnswerStatusEnum.WaitJudge.getCode());
         } else {
@@ -278,25 +300,25 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         return examPaperAnswer;
     }
 
-
     @Override
-    public PageInfo<ExamPaperAnswer> adminPage(com.mindskip.xzs.viewmodel.admin.paper.ExamPaperAnswerPageRequestVM requestVM) {
-        return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "id desc").doSelectPageInfo(() ->
-                examPaperAnswerMapper.adminPage(requestVM));
+    public PageInfo<ExamPaperAnswer> adminPage(
+            com.mindskip.xzs.viewmodel.admin.paper.ExamPaperAnswerPageRequestVM requestVM) {
+        return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "id desc")
+                .doSelectPageInfo(() -> examPaperAnswerMapper.adminPage(requestVM));
     }
 
     @Override
     public List<ExamResultResponseVM> getExamResults(Long courseId, Integer examId) {
         // 查询该测验下的所有学生答卷
         List<ExamPaperAnswer> answers = examPaperAnswerMapper.selectByCourseIdAndExamId(courseId, examId);
-        
+
         // 查询课程学生
         List<CourseStudentDTO> students = courseStudentMapper.selectByCourseId(courseId);
         Map<Integer, CourseStudentDTO> studentMap = new HashMap<>();
         for (CourseStudentDTO student : students) {
             studentMap.put(student.getUserId(), student);
         }
-        
+
         // 转换为视图模型
         List<ExamResultResponseVM> resultList = new ArrayList<>();
         for (ExamPaperAnswer answer : answers) {
@@ -304,8 +326,9 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
             vm.setId(answer.getId());
             vm.setScore(answer.getUserScore());
             vm.setSubmitTime(answer.getCreateTime());
-            vm.setAnswerCompleted(Integer.valueOf(ExamPaperAnswerStatusEnum.Complete.getCode()).equals(answer.getStatus()));
-            
+            vm.setAnswerCompleted(
+                    Integer.valueOf(ExamPaperAnswerStatusEnum.Complete.getCode()).equals(answer.getStatus()));
+
             CourseStudentDTO student = studentMap.get(answer.getCreateUser());
             if (student != null) {
                 vm.setStudentId(student.getStudentId());
@@ -317,34 +340,34 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
                     vm.setStudentName(user.getRealName());
                 }
             }
-            
+
             resultList.add(vm);
         }
-        
+
         return resultList;
     }
 
     @Override
     public Object getExamStatistics(Long courseId, Integer examId) {
         // 查询测验相关统计数据
-        
+
         // 1. 查询测验信息
         CourseExam exam = courseExamMapper.selectByPrimaryKey(examId);
         if (exam == null || !exam.getCourseId().equals(courseId)) {
             throw new RuntimeException("测验不存在");
         }
-        
+
         // 2. 查询课程学生总数
         Integer totalStudents = courseStudentMapper.countByCourseId(courseId);
-        
+
         // 3. 查询已交卷学生数
         Integer submittedCount = examPaperAnswerMapper.countByExamId(examId);
-        
+
         // 4. 计算平均分、最高分等
         Integer totalScore = 0;
         Integer maxScore = 0;
         List<ExamPaperAnswer> answers = examPaperAnswerMapper.selectByCourseIdAndExamId(courseId, examId);
-        
+
         // 分数区间统计
         Map<String, Integer> scoreDistribution = new HashMap<>();
         scoreDistribution.put("0-60", 0);
@@ -352,14 +375,14 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         scoreDistribution.put("70-80", 0);
         scoreDistribution.put("80-90", 0);
         scoreDistribution.put("90-100", 0);
-        
+
         for (ExamPaperAnswer answer : answers) {
             Integer score = answer.getUserScore();
             totalScore += score;
             if (score > maxScore) {
                 maxScore = score;
             }
-            
+
             // 分数区间统计
             if (score < 60) {
                 scoreDistribution.put("0-60", scoreDistribution.get("0-60") + 1);
@@ -373,10 +396,10 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
                 scoreDistribution.put("90-100", scoreDistribution.get("90-100") + 1);
             }
         }
-        
+
         // 计算平均分
         double averageScore = submittedCount > 0 ? (double) totalScore / submittedCount : 0;
-        
+
         // 构建返回结果
         Map<String, Object> result = new HashMap<>();
         result.put("totalCount", totalStudents);
@@ -384,26 +407,30 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
         result.put("averageScore", averageScore);
         result.put("maxScore", maxScore);
         result.put("scoreDistribution", scoreDistribution);
-        
+
         return result;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object getExamAnswers(Long courseId, Integer examId, Object query) {
         // 根据查询条件获取答卷列表
-        
+
         // 转换查询条件
         Map<String, Object> queryMap = (Map<String, Object>) query;
-        Integer pageIndex = queryMap.get("pageIndex") != null ? Integer.valueOf(queryMap.get("pageIndex").toString()) : 1;
+        Integer pageIndex = queryMap.get("pageIndex") != null ? Integer.valueOf(queryMap.get("pageIndex").toString())
+                : 1;
         Integer pageSize = queryMap.get("pageSize") != null ? Integer.valueOf(queryMap.get("pageSize").toString()) : 10;
         String studentName = queryMap.get("studentName") != null ? queryMap.get("studentName").toString() : null;
-        Integer scoreFrom = queryMap.get("scoreFrom") != null ? Integer.valueOf(queryMap.get("scoreFrom").toString()) : null;
+        Integer scoreFrom = queryMap.get("scoreFrom") != null ? Integer.valueOf(queryMap.get("scoreFrom").toString())
+                : null;
         Integer scoreTo = queryMap.get("scoreTo") != null ? Integer.valueOf(queryMap.get("scoreTo").toString()) : null;
-        
+
         // 分页查询
         PageHelper.startPage(pageIndex, pageSize);
-        List<ExamPaperAnswer> answers = examPaperAnswerMapper.selectByExamIdAndConditions(examId, studentName, scoreFrom, scoreTo);
-        
+        List<ExamPaperAnswer> answers = examPaperAnswerMapper.selectByExamIdAndConditions(examId, studentName,
+                scoreFrom, scoreTo);
+
         // 转换为ViewModel
         List<Map<String, Object>> answerList = new ArrayList<>();
         for (ExamPaperAnswer answer : answers) {
@@ -411,73 +438,127 @@ public class ExamPaperAnswerServiceImpl extends BaseServiceImpl<ExamPaperAnswer>
             answerMap.put("id", answer.getId());
             answerMap.put("studentId", "");
             answerMap.put("studentName", "");
-            
+
             // 获取学生信息
             User user = userMapper.selectByPrimaryKey(answer.getCreateUser());
             if (user != null) {
                 answerMap.put("studentName", user.getRealName());
                 answerMap.put("studentId", user.getUserUuid());
             }
-            
+
             answerMap.put("score", answer.getUserScore());
             answerMap.put("submitTime", DateTimeUtil.dateFormat(answer.getCreateTime()));
-            answerMap.put("answerCompleted", Integer.valueOf(ExamPaperAnswerStatusEnum.Complete.getCode()).equals(answer.getStatus()));
+            answerMap.put("answerCompleted",
+                    Integer.valueOf(ExamPaperAnswerStatusEnum.Complete.getCode()).equals(answer.getStatus()));
             answerMap.put("status", answer.getStatus());
-            
+
             answerList.add(answerMap);
         }
-        
+
         // 构建分页结果
         PageInfo<ExamPaperAnswer> pageInfo = new PageInfo<>(answers);
-        
+
         Map<String, Object> result = new HashMap<>();
         result.put("list", answerList);
         result.put("total", pageInfo.getTotal());
         result.put("pageNum", pageInfo.getPageNum());
         result.put("pageSize", pageInfo.getPageSize());
-        
+
         return result;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void evaluateAnswer(Long courseId, Integer examId, Integer answerId, Object data) {
         // 根据评阅数据更新答卷
-        
+
         // 1. 获取答卷信息
         ExamPaperAnswer answer = examPaperAnswerMapper.selectByPrimaryKey(answerId);
         if (answer == null) {
             throw new RuntimeException("答卷不存在");
         }
-        
+
         // 2. 获取评阅数据
         Map<String, Object> evaluationData = (Map<String, Object>) data;
-        List<Map<String, Object>> questionEvaluations = (List<Map<String, Object>>) evaluationData.get("questionEvaluations");
-        
+        List<Map<String, Object>> questionEvaluations = (List<Map<String, Object>>) evaluationData
+                .get("questionEvaluations");
+
         // 3. 更新题目得分
         int totalScore = 0;
         for (Map<String, Object> evaluation : questionEvaluations) {
             Integer questionId = Integer.valueOf(evaluation.get("questionId").toString());
             Integer score = Integer.valueOf(evaluation.get("score").toString());
             String comment = evaluation.get("comment") != null ? evaluation.get("comment").toString() : "";
-            
+
             // 更新题目答案的得分
-            ExamPaperQuestionCustomerAnswer questionAnswer = examPaperQuestionCustomerAnswerService.getByAnswerIdAndQuestionId(answerId, questionId);
+            ExamPaperQuestionCustomerAnswer questionAnswer = examPaperQuestionCustomerAnswerService
+                    .getByAnswerIdAndQuestionId(answerId, questionId);
             if (questionAnswer != null) {
                 questionAnswer.setCustomerScore(score);
                 examPaperQuestionCustomerAnswerService.updateByIdFilter(questionAnswer);
-                
+
                 // 可选：保存评语
                 if (comment != null && !comment.isEmpty()) {
                     // 保存评语逻辑，可以存储在TextContent中
                 }
-                
+
                 totalScore += score;
             }
         }
-        
+
         // 4. 更新答卷总分
         answer.setUserScore(totalScore);
         answer.setStatus(ExamPaperAnswerStatusEnum.Complete.getCode());
         updateByIdFilter(answer);
+    }
+
+    @Override
+    @Transactional
+    public ExamPaperAnswer createExamPaperAnswer(Integer examPaperId, Integer studentId) {
+        // 1. 获取试卷信息
+        ExamPaper examPaper = examPaperMapper.selectByPrimaryKey(examPaperId);
+        if (examPaper == null) {
+            throw new RuntimeException("试卷不存在");
+        }
+
+        // 2. 获取学生信息
+        User student = userMapper.selectByPrimaryKey(studentId);
+        if (student == null) {
+            throw new RuntimeException("学生不存在");
+        }
+
+        // 3. 检查是否已经有答卷记录（对于任务类型的试卷）
+        ExamPaperTypeEnum paperTypeEnum = ExamPaperTypeEnum.fromCode(examPaper.getPaperType());
+        if (paperTypeEnum == ExamPaperTypeEnum.Task) {
+            ExamPaperAnswer existingAnswer = examPaperAnswerMapper.getByPidUid(examPaperId, studentId);
+            if (existingAnswer != null) {
+                throw new RuntimeException("该试卷只能做一次");
+            }
+        }
+
+        // 4. 创建答卷对象
+        Date now = new Date();
+        ExamPaperAnswer examPaperAnswer = new ExamPaperAnswer();
+        examPaperAnswer.setPaperName(examPaper.getName());
+        examPaperAnswer.setExamPaperId(examPaper.getId());
+        examPaperAnswer.setCreateUser(student.getId());
+        examPaperAnswer.setCreateTime(now);
+        examPaperAnswer.setSubjectId(examPaper.getSubjectId());
+        examPaperAnswer.setQuestionCount(examPaper.getQuestionCount());
+        examPaperAnswer.setPaperScore(examPaper.getScore());
+        examPaperAnswer.setPaperType(examPaper.getPaperType());
+        examPaperAnswer.setTaskExamId(examPaper.getTaskExamId());
+
+        // 初始化分数和状态
+        examPaperAnswer.setSystemScore(0);
+        examPaperAnswer.setUserScore(0);
+        examPaperAnswer.setQuestionCorrect(0);
+        examPaperAnswer.setDoTime(0);
+        examPaperAnswer.setStatus(ExamPaperAnswerStatusEnum.WaitJudge.getCode()); // 待批改状态
+
+        // 5. 保存答卷记录
+        insertByFilter(examPaperAnswer);
+
+        return examPaperAnswer;
     }
 }

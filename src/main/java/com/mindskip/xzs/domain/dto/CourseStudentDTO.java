@@ -13,7 +13,7 @@ public class CourseStudentDTO implements Serializable {
      * 学生ID
      */
     private Integer id;
-    
+
     /**
      * 用户ID
      */
@@ -28,11 +28,16 @@ public class CourseStudentDTO implements Serializable {
      * 学生真实姓名
      */
     private String realName;
-    
+
     /**
      * 学号
      */
     private String studentId;
+
+    /**
+     * 手机号
+     */
+    private String phone;
 
     /**
      * 选课状态(1:已选,2:已退)
@@ -56,7 +61,7 @@ public class CourseStudentDTO implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public Integer getUserId() {
         return userId;
     }
@@ -80,13 +85,21 @@ public class CourseStudentDTO implements Serializable {
     public void setRealName(String realName) {
         this.realName = realName;
     }
-    
+
     public String getStudentId() {
         return studentId;
     }
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Integer getStatus() {
@@ -112,4 +125,4 @@ public class CourseStudentDTO implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-} 
+}

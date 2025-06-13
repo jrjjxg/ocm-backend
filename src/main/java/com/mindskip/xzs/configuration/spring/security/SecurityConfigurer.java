@@ -14,14 +14,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 
 /**
  * @version 3.5.0
  * @description: The type Security configurer.
- * Copyright (C), 2020-2025, 武汉思维跳跃科技有限公司
+ *               Copyright (C), 2020-2025, 武汉思维跳跃科技有限公司
  * @date 2021/12/25 9:45
  */
 @Configuration
@@ -50,13 +50,20 @@ public class SecurityConfigurer {
          * @param restAuthenticationEntryPoint     the rest authentication entry point
          * @param restAuthenticationProvider       the rest authentication provider
          * @param formDetailsService               the form details service
-         * @param restAuthenticationSuccessHandler the rest authentication success handler
-         * @param restAuthenticationFailureHandler the rest authentication failure handler
+         * @param restAuthenticationSuccessHandler the rest authentication success
+         *                                         handler
+         * @param restAuthenticationFailureHandler the rest authentication failure
+         *                                         handler
          * @param restLogoutSuccessHandler         the rest logout success handler
          * @param restAccessDeniedHandler          the rest access denied handler
          */
         @Autowired
-        public FormLoginWebSecurityConfigurerAdapter(SystemConfig systemConfig, LoginAuthenticationEntryPoint restAuthenticationEntryPoint, RestAuthenticationProvider restAuthenticationProvider, RestDetailsServiceImpl formDetailsService, RestAuthenticationSuccessHandler restAuthenticationSuccessHandler, RestAuthenticationFailureHandler restAuthenticationFailureHandler, RestLogoutSuccessHandler restLogoutSuccessHandler, RestAccessDeniedHandler restAccessDeniedHandler) {
+        public FormLoginWebSecurityConfigurerAdapter(SystemConfig systemConfig,
+                LoginAuthenticationEntryPoint restAuthenticationEntryPoint,
+                RestAuthenticationProvider restAuthenticationProvider, RestDetailsServiceImpl formDetailsService,
+                RestAuthenticationSuccessHandler restAuthenticationSuccessHandler,
+                RestAuthenticationFailureHandler restAuthenticationFailureHandler,
+                RestLogoutSuccessHandler restLogoutSuccessHandler, RestAccessDeniedHandler restAccessDeniedHandler) {
             this.systemConfig = systemConfig;
             this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
             this.restAuthenticationProvider = restAuthenticationProvider;
@@ -84,19 +91,22 @@ public class SecurityConfigurer {
                     .and().authenticationProvider(restAuthenticationProvider)
                     .authorizeRequests()
                     .antMatchers(securityIgnoreUrls.toArray(ignores)).permitAll()
-                    .antMatchers(org.springframework.http.HttpMethod.GET, "/api/teacher/resource/course/**").hasAnyRole(RoleEnum.TEACHER.getName(), RoleEnum.STUDENT.getName(), RoleEnum.ADMIN.getName())
+                    .antMatchers(org.springframework.http.HttpMethod.GET, "/api/teacher/resource/course/**")
+                    .hasAnyRole(RoleEnum.TEACHER.getName(), RoleEnum.STUDENT.getName(), RoleEnum.ADMIN.getName())
                     .antMatchers("/api/admin/**").hasRole(RoleEnum.ADMIN.getName())
                     .antMatchers("/api/student/**").hasRole(RoleEnum.STUDENT.getName())
                     .antMatchers("/api/teacher/**").hasRole(RoleEnum.TEACHER.getName())
                     .anyRequest().permitAll()
                     .and().exceptionHandling().accessDeniedHandler(restAccessDeniedHandler)
-                    .and().formLogin().successHandler(restAuthenticationSuccessHandler).failureHandler(restAuthenticationFailureHandler)
-                    .and().logout().logoutUrl("/api/user/logout").logoutSuccessHandler(restLogoutSuccessHandler).invalidateHttpSession(true)
-                    .and().rememberMe().key(CookieConfig.getName()).tokenValiditySeconds(CookieConfig.getInterval()).userDetailsService(formDetailsService)
+                    .and().formLogin().successHandler(restAuthenticationSuccessHandler)
+                    .failureHandler(restAuthenticationFailureHandler)
+                    .and().logout().logoutUrl("/api/user/logout").logoutSuccessHandler(restLogoutSuccessHandler)
+                    .invalidateHttpSession(true)
+                    .and().rememberMe().key(CookieConfig.getName()).tokenValiditySeconds(CookieConfig.getInterval())
+                    .userDetailsService(formDetailsService)
                     .and().csrf().disable()
                     .cors();
         }
-
 
         /**
          * Cors configuration source cors configuration source.
@@ -107,7 +117,7 @@ public class SecurityConfigurer {
         public CorsConfigurationSource corsConfigurationSource() {
             final CorsConfiguration configuration = new CorsConfiguration();
             configuration.setMaxAge(3600L);
-            configuration.setAllowedOrigins(Collections.singletonList("*"));
+            configuration.setAllowedOrigins(Arrays.asList("http://localhost:8002", "http://localhost:8003"));
             configuration.setAllowedMethods(Collections.singletonList("*"));
             configuration.setAllowCredentials(true);
             configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -115,7 +125,6 @@ public class SecurityConfigurer {
             source.registerCorsConfiguration("/api/**", configuration);
             return source;
         }
-
 
         /**
          * Authentication filter rest login authentication filter.
@@ -132,7 +141,6 @@ public class SecurityConfigurer {
             authenticationFilter.setUserDetailsService(formDetailsService);
             return authenticationFilter;
         }
-
 
     }
 }

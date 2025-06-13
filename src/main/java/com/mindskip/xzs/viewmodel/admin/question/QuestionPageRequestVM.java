@@ -2,17 +2,14 @@ package com.mindskip.xzs.viewmodel.admin.question;
 
 import com.mindskip.xzs.base.BasePage;
 
-
-
 public class QuestionPageRequestVM extends BasePage {
 
     private Integer id;
     private Integer level;
-    private Integer subjectId;
+
     private Integer courseId;
     private Integer questionType;
     private String content;
-
 
     public Integer getId() {
         return id;
@@ -30,14 +27,6 @@ public class QuestionPageRequestVM extends BasePage {
         this.level = level;
     }
 
-    public Integer getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Integer subjectId) {
-        this.subjectId = subjectId;
-    }
-    
     public Integer getCourseId() {
         return courseId;
     }

@@ -228,4 +228,123 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
-</mapper> 
+
+  <!-- 学生端查询方法 -->
+  <select id="selectByCourseIdForStudent" resultType="com.mindskip.xzs.viewmodel.student.StudentExamResponseVM">
+    SELECT
+      ce.id,
+      ce.exam_id as examPaperId,
+      ce.title,
+      ce.description,
+      ce.start_time as startTime,
+      ce.end_time as endTime,
+      ce.duration,
+      ce.show_result as showResult,
+      COALESCE(ep.score, 0) as totalScore,
+      COALESCE(ep.question_count, 0) as questionCount,
+      CASE
+        WHEN NOW() &lt; ce.start_time THEN 1
+        WHEN NOW() &gt; ce.end_time THEN 3
+        ELSE 2
+      END as status,
+      CASE
+        WHEN epa.id IS NOT NULL THEN 'submitted'
+        ELSE 'not_submitted'
+      END as submitStatus,
+      epa.user_score as score,
+      epa.create_time as submitTime
+    FROM t_course_exam ce
+    LEFT JOIN t_exam_paper ep ON ce.exam_id = ep.id
+    LEFT JOIN t_exam_paper_answer epa ON ce.exam_id = epa.exam_paper_id AND epa.create_user = #{studentId}
+    WHERE ce.course_id = #{courseId}
+    ORDER BY ce.start_time DESC
+  </select>
+
+  <select id="selectByCourseIdAndExamIdForStudent" resultType="com.mindskip.xzs.viewmodel.student.StudentExamResponseVM">
+    SELECT
+      ce.id,
+      ce.exam_id as examPaperId,
+      ce.title,
+      ce.description,
+      ce.start_time as startTime,
+      ce.end_time as endTime,
+      ce.duration,
+      ce.show_result as showResult,
+      COALESCE(ep.score, 0) as totalScore,
+      COALESCE(ep.question_count, 0) as questionCount,
+      CASE
+        WHEN NOW() &lt; ce.start_time THEN 1
+        WHEN NOW() &gt; ce.end_time THEN 3
+        ELSE 2
+      END as status,
+      CASE
+        WHEN epa.id IS NOT NULL THEN 'submitted'
+        ELSE 'not_submitted'
+      END as submitStatus,
+      epa.user_score as score,
+      epa.create_time as submitTime
+    FROM t_course_exam ce
+    LEFT JOIN t_exam_paper ep ON ce.exam_id = ep.id
+    LEFT JOIN t_exam_paper_answer epa ON ce.exam_id = epa.exam_paper_id AND epa.create_user = #{studentId}
+    WHERE ce.course_id = #{courseId} AND ce.id = #{examId}
+  </select>
+
+  <!-- 教师端查询方法 -->
+  <select id="selectByCourseIdForTeacher" resultType="com.mindskip.xzs.viewmodel.teacher.CourseExamResponseVM">
+    SELECT
+      ce.id,
+      ce.title,
+      ce.description,
+      ce.start_time as startTime,
+      ce.end_time as endTime,
+      ce.duration,
+      ce.shuffle_questions as shuffleQuestions,
+      ce.show_result as showResult,
+      ce.limit_ip as limitIp,
+      ep.score as totalScore,
+      ep.question_count as questionCount,
+      CASE
+        WHEN NOW() &lt; ce.start_time THEN 'not_started'
+        WHEN NOW() &gt; ce.end_time THEN 'ended'
+        ELSE 'in_progress'
+      END as status,
+      (SELECT COUNT(*) FROM t_exam_paper_answer epa WHERE epa.exam_paper_id = ce.exam_id) as submitCount,
+      ce.create_time as createTime
+    FROM t_course_exam ce
+    LEFT JOIN t_exam_paper ep ON ce.exam_id = ep.id
+    WHERE ce.course_id = #{courseId}
+    ORDER BY ce.create_time DESC
+  </select>
+
+  <select id="selectByCourseIdAndExamIdForTeacher" resultType="com.mindskip.xzs.viewmodel.teacher.CourseExamResponseVM">
+    SELECT
+      ce.id,
+      ce.title,
+      ce.description,
+      ce.start_time as startTime,
+      ce.end_time as endTime,
+      ce.duration,
+      ce.shuffle_questions as shuffleQuestions,
+      ce.show_result as showResult,
+      ce.limit_ip as limitIp,
+      ep.score as totalScore,
+      ep.question_count as questionCount,
+      CASE
+        WHEN NOW() &lt; ce.start_time THEN 'not_started'
+        WHEN NOW() &gt; ce.end_time THEN 'ended'
+        ELSE 'in_progress'
+      END as status,
+      (SELECT COUNT(*) FROM t_exam_paper_answer epa WHERE epa.exam_paper_id = ce.exam_id) as submitCount,
+      ce.create_time as createTime
+    FROM t_course_exam ce
+    LEFT JOIN t_exam_paper ep ON ce.exam_id = ep.id
+    WHERE ce.course_id = #{courseId} AND ce.id = #{examId}
+  </select>
+
+  <select id="calculateAverageScoreByCourseExamId" resultType="java.lang.Double">
+    SELECT AVG(epa.user_score)
+    FROM t_course_exam ce
+    LEFT JOIN t_exam_paper_answer epa ON ce.exam_id = epa.exam_paper_id
+    WHERE ce.id = #{courseExamId} AND epa.user_score IS NOT NULL
+  </select>
+</mapper>

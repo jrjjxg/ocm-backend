@@ -1,5 +1,6 @@
 package com.mindskip.xzs.viewmodel.teacher.exam;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
@@ -18,9 +19,11 @@ public class CourseExamRequestVM {
     private String description;
 
     @NotNull(message = "开始时间不能为空")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
 
     @NotNull(message = "结束时间不能为空")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
 
     @NotNull(message = "考试时长不能为空")
@@ -127,4 +130,4 @@ public class CourseExamRequestVM {
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
-} 
+}

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.HomeworkAnswerMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.HomeworkAnswer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="homework_id" jdbcType="INTEGER" property="homeworkId" />
+    <result column="question_id" jdbcType="INTEGER" property="questionId" />
+    <result column="student_id" jdbcType="INTEGER" property="studentId" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="answer_text_content_id" jdbcType="INTEGER" property="answerTextContentId" />
+    <result column="file_urls_text_content_id" jdbcType="INTEGER" property="fileUrlsTextContentId" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="auto_score" jdbcType="INTEGER" property="autoScore" />
+    <result column="manual_score" jdbcType="INTEGER" property="manualScore" />
+    <result column="is_correct" jdbcType="BIT" property="isCorrect" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="graded_time" jdbcType="TIMESTAMP" property="gradedTime" />
+    <result column="grader_id" jdbcType="INTEGER" property="graderId" />
+    <result column="feedback_text_content_id" jdbcType="INTEGER" property="feedbackTextContentId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, homework_id, question_id, student_id, answer, answer_text_content_id, 
+    file_urls_text_content_id, score, auto_score, manual_score, is_correct, 
+    submit_time, graded_time, grader_id, feedback_text_content_id, status, 
+    create_time, update_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_homework_answer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_homework_answer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.HomeworkAnswer" useGeneratedKeys="true" keyProperty="id">
+    insert into t_homework_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="homeworkId != null">homework_id,</if>
+      <if test="questionId != null">question_id,</if>
+      <if test="studentId != null">student_id,</if>
+      <if test="answer != null">answer,</if>
+      <if test="answerTextContentId != null">answer_text_content_id,</if>
+      <if test="fileUrlsTextContentId != null">file_urls_text_content_id,</if>
+      <if test="score != null">score,</if>
+      <if test="autoScore != null">auto_score,</if>
+      <if test="manualScore != null">manual_score,</if>
+      <if test="isCorrect != null">is_correct,</if>
+      <if test="submitTime != null">submit_time,</if>
+      <if test="gradedTime != null">graded_time,</if>
+      <if test="graderId != null">grader_id,</if>
+      <if test="feedbackTextContentId != null">feedback_text_content_id,</if>
+      <if test="status != null">status,</if>
+      <if test="createTime != null">create_time,</if>
+      <if test="updateTime != null">update_time,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="homeworkId != null">#{homeworkId,jdbcType=INTEGER},</if>
+      <if test="questionId != null">#{questionId,jdbcType=INTEGER},</if>
+      <if test="studentId != null">#{studentId,jdbcType=INTEGER},</if>
+      <if test="answer != null">#{answer,jdbcType=VARCHAR},</if>
+      <if test="answerTextContentId != null">#{answerTextContentId,jdbcType=INTEGER},</if>
+      <if test="fileUrlsTextContentId != null">#{fileUrlsTextContentId,jdbcType=INTEGER},</if>
+      <if test="score != null">#{score,jdbcType=INTEGER},</if>
+      <if test="autoScore != null">#{autoScore,jdbcType=INTEGER},</if>
+      <if test="manualScore != null">#{manualScore,jdbcType=INTEGER},</if>
+      <if test="isCorrect != null">#{isCorrect,jdbcType=BIT},</if>
+      <if test="submitTime != null">#{submitTime,jdbcType=TIMESTAMP},</if>
+      <if test="gradedTime != null">#{gradedTime,jdbcType=TIMESTAMP},</if>
+      <if test="graderId != null">#{graderId,jdbcType=INTEGER},</if>
+      <if test="feedbackTextContentId != null">#{feedbackTextContentId,jdbcType=INTEGER},</if>
+      <if test="status != null">#{status,jdbcType=INTEGER},</if>
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.HomeworkAnswer">
+    update t_homework_answer
+    <set>
+      <if test="homeworkId != null">homework_id = #{homeworkId,jdbcType=INTEGER},</if>
+      <if test="questionId != null">question_id = #{questionId,jdbcType=INTEGER},</if>
+      <if test="studentId != null">student_id = #{studentId,jdbcType=INTEGER},</if>
+      <if test="answer != null">answer = #{answer,jdbcType=VARCHAR},</if>
+      <if test="answerTextContentId != null">answer_text_content_id = #{answerTextContentId,jdbcType=INTEGER},</if>
+      <if test="fileUrlsTextContentId != null">file_urls_text_content_id = #{fileUrlsTextContentId,jdbcType=INTEGER},</if>
+      <if test="score != null">score = #{score,jdbcType=INTEGER},</if>
+      <if test="autoScore != null">auto_score = #{autoScore,jdbcType=INTEGER},</if>
+      <if test="manualScore != null">manual_score = #{manualScore,jdbcType=INTEGER},</if>
+      <if test="isCorrect != null">is_correct = #{isCorrect,jdbcType=BIT},</if>
+      <if test="submitTime != null">submit_time = #{submitTime,jdbcType=TIMESTAMP},</if>
+      <if test="gradedTime != null">graded_time = #{gradedTime,jdbcType=TIMESTAMP},</if>
+      <if test="graderId != null">grader_id = #{graderId,jdbcType=INTEGER},</if>
+      <if test="feedbackTextContentId != null">feedback_text_content_id = #{feedbackTextContentId,jdbcType=INTEGER},</if>
+      <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据作业ID和学生ID查询所有答案 -->
+  <select id="selectByHomeworkIdAndStudentId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework_answer
+    WHERE homework_id = #{homeworkId} AND student_id = #{studentId}
+    ORDER BY question_id
+  </select>
+  
+  <!-- 检查学生是否已提交作业（获取第一个已提交的答案） -->
+  <select id="selectFirstSubmittedAnswerByHomeworkAndStudent" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework_answer
+    WHERE homework_id = #{homeworkId} AND student_id = #{studentId} AND status >= 2
+    ORDER BY submit_time DESC
+    LIMIT 1
+  </select>
+  
+  <!-- 根据作业ID、题目ID和学生ID查询答案 -->
+  <select id="selectByHomeworkQuestionAndStudent" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework_answer
+    WHERE homework_id = #{homeworkId} AND question_id = #{questionId} AND student_id = #{studentId}
+  </select>
+  
+  <!-- 根据作业ID查询所有学生答案 -->
+  <select id="selectByHomeworkId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework_answer
+    WHERE homework_id = #{homeworkId}
+  </select>
+  
+  <!-- 根据学生ID查询答案列表 -->
+  <select id="selectByStudentId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_homework_answer
+    WHERE student_id = #{studentId}
+  </select>
+  
+</mapper> 

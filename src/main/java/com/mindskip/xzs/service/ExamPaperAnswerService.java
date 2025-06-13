@@ -29,10 +29,10 @@ public interface ExamPaperAnswerService extends BaseService<ExamPaperAnswer> {
      */
     ExamPaperAnswerInfo calculateExamPaperAnswer(ExamPaperSubmitVM examPaperSubmitVM, User user);
 
-
     /**
      * 试卷批改
-     * @param examPaperSubmitVM  examPaperSubmitVM
+     * 
+     * @param examPaperSubmitVM examPaperSubmitVM
      * @return String
      */
     String judge(ExamPaperSubmitVM examPaperSubmitVM);
@@ -45,18 +45,17 @@ public interface ExamPaperAnswerService extends BaseService<ExamPaperAnswer> {
      */
     ExamPaperSubmitVM examPaperAnswerToVM(Integer id);
 
-
     Integer selectAllCount();
 
     List<Integer> selectMothCount();
 
     PageInfo<ExamPaperAnswer> adminPage(com.mindskip.xzs.viewmodel.admin.paper.ExamPaperAnswerPageRequestVM requestVM);
-    
+
     /**
      * 获取测验的学生答卷成绩列表
      *
      * @param courseId 课程ID
-     * @param examId 测验ID
+     * @param examId   测验ID
      * @return 成绩列表
      */
     List<ExamResultResponseVM> getExamResults(Long courseId, Integer examId);
@@ -65,7 +64,7 @@ public interface ExamPaperAnswerService extends BaseService<ExamPaperAnswer> {
      * 获取测验统计数据
      *
      * @param courseId 课程ID
-     * @param examId 测验ID
+     * @param examId   测验ID
      * @return 统计数据
      */
     Object getExamStatistics(Long courseId, Integer examId);
@@ -74,8 +73,8 @@ public interface ExamPaperAnswerService extends BaseService<ExamPaperAnswer> {
      * 获取测验答卷列表
      *
      * @param courseId 课程ID
-     * @param examId 测验ID
-     * @param query 查询条件
+     * @param examId   测验ID
+     * @param query    查询条件
      * @return 答卷列表
      */
     Object getExamAnswers(Long courseId, Integer examId, Object query);
@@ -84,9 +83,18 @@ public interface ExamPaperAnswerService extends BaseService<ExamPaperAnswer> {
      * 评阅测验答卷
      *
      * @param courseId 课程ID
-     * @param examId 测验ID
+     * @param examId   测验ID
      * @param answerId 答卷ID
-     * @param data 评阅数据
+     * @param data     评阅数据
      */
     void evaluateAnswer(Long courseId, Integer examId, Integer answerId, Object data);
+
+    /**
+     * 创建测验答卷
+     *
+     * @param examPaperId 试卷ID
+     * @param studentId   学生ID
+     * @return 创建的答卷对象
+     */
+    ExamPaperAnswer createExamPaperAnswer(Integer examPaperId, Integer studentId);
 }

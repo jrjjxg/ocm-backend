@@ -28,6 +28,38 @@ public class FileUploadService {
             throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
         }
     }
+    
+    /**
+     * 上传文件（针对作业系统）
+     * 
+     * @param file 上传的文件
+     * @return 文件访问URL路径
+     */
+    public String uploadFile(MultipartFile file) {
+        try {
+            String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileExtension = "";
+            try {
+                fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+            } catch (Exception e) {
+                // No extension, or other error
+            }
+            String storedFileName = UUID.randomUUID().toString() + fileExtension;
+            
+            // 针对作业文件创建特定目录
+            Path assignmentDir = this.fileStorageLocation.resolve("assignments");
+            Files.createDirectories(assignmentDir);
+            
+            Path targetLocation = assignmentDir.resolve(storedFileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            
+            // 返回文件访问路径
+            return resourceServePath + "assignments/" + storedFileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public String storeFile(MultipartFile file, Long courseId) throws IOException {
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
